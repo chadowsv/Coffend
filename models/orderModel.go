@@ -9,5 +9,5 @@ type Order struct {
 	Updated_at time.Time `json:"updated_at"`
 	//UserID     int       `json:"user_id"`
 	Total   float64 `json:"total"`
-	TableID *int    `json:"table_id" validate:"required"`
+	TableID int     `json:"table_id" validate:"required"`
 }

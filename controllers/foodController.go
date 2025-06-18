@@ -14,6 +14,7 @@ import (
 var validate = validator.New()
 
 // Retorna un manejador HTTP
+// Se encapsula en gin.Handler para integrarse con el enrutador
 func GetFoods() gin.HandlerFunc {
 	//Contexto que da acceso a la solicitud y respuesta
 	return func(c *gin.Context) {
@@ -24,10 +25,11 @@ func GetFoods() gin.HandlerFunc {
 		queryFoods := "SELECT * FROM Foods"
 		rows, err := database.DB.QueryContext(ctx, queryFoods)
 		if err != nil {
+			//serializa datos a JSON y establece el header
 			c.JSON(500, gin.H{"error": "Database error"})
 			return
 		}
-		//Cierre de filas una vez procesadas
+		//Cierre de filas una vez procesadas, previene resource leaks
 		defer rows.Close()
 		//se recorre cada fila con el next
 		for rows.Next() {
@@ -106,6 +108,7 @@ func CreateFood() gin.HandlerFunc {
 		}
 		//Se realiza la Query y se guarda el resultado de la consulta SQL en menu.MenuID, para guardar se necesita la direccion de la variable
 		err := database.DB.QueryRowContext(ctx, "SELECT menu_id FROM Menus WHERE menu_id = @p1", newFood.MenuID).Scan(&menu.MenuID)
+		//Scan toma los valores de la fila de resultado y los asigna a las variables
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "Menu not found"})
 			return
@@ -115,6 +118,7 @@ func CreateFood() gin.HandlerFunc {
 		//Se accede al valor que esta en esa direccion de memoria
 		//Con el scan se guarda el resultado de la columna en la variable menu.MenuID
 		insertQuery := "INSERT INTO	Foods (name,description,price, created_at, updated_at,menu_id) VALUES (@p1,@p2,@p3,@p4,@p5,@p6);"
+		//Se ignora el resultado que diria la cantidad de filas afectadas y nos interesa el error
 		_, insertErr := database.DB.ExecContext(ctx, insertQuery,
 			newFood.Name,
 			newFood.Description,
@@ -165,7 +169,7 @@ func UpdateFood() gin.HandlerFunc {
 			food_id,
 		)
 		if updateErr != nil {
-			c.JSON(500, gin.H{"error": "Failed to update de menu"})
+			c.JSON(500, gin.H{"error": "Failed to update de food"})
 			return
 		}
 		c.JSON(200, gin.H{"message": "Food updated successfully"})

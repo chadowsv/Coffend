@@ -1,13 +1,13 @@
 package database
 
 import (
-	"database/sql"
-	"fmt"
-	"log"
-	"os"
+	"database/sql" //libreria estandar para la conexion con la BDD
+	"fmt"          //creacion de cadenas de formato
+	"log"          //mostrar mensajes de error o informacion
+	"os"           //lectura de variables de entorno
 
-	"github.com/joho/godotenv"
-	_ "github.com/microsoft/go-mssqldb"
+	"github.com/joho/godotenv"          //carga de variables de entorno en .env
+	_ "github.com/microsoft/go-mssqldb" //driver para SQL server
 )
 
 // Definicion de variable global para que sea accesible desde otros paquetes
