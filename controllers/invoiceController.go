@@ -91,6 +91,7 @@ func GetInvoice() gin.HandlerFunc {
 		invoice.OrderDetails = orderItems
 
 		// 4. Devolver la estructura completa como JSON
+		//Al usar c.JSON() el paquete encoding/json serializa automaticamente los structs convirtiendo a minusculas
 		c.JSON(http.StatusOK, invoice)
 	}
 }

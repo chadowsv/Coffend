@@ -16,9 +16,10 @@ var validate = validator.New()
 // Retorna un manejador HTTP
 // Se encapsula en gin.Handler para integrarse con el enrutador
 func GetFoods() gin.HandlerFunc {
-	//Contexto que da acceso a la solicitud y respuesta
+	//Contexto que da acceso a la solicitud y respuesta, objeto de gin que contiene toda la informacion de la solicitud y respuesta
 	return func(c *gin.Context) {
 		//Evita que la consulta se quede colgada mucho tiempo
+		//Manejo de deadlines, cancelaciones y pasar valores en operaciones concurrentes
 		ctx, cancel := context.WithTimeout(context.Background(), 100*time.Second)
 		defer cancel()
 		var foods []models.Food

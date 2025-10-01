@@ -140,13 +140,11 @@ func UpdateOrder() gin.HandlerFunc {
 		// Query para actualizar la orden
 		updateQuery := `
 			UPDATE Orders 
-			SET order_date=@p1, created_at=@p2, updated_at=@p3, table_id=@p4, total=@p5 
-			WHERE order_id=@p6
+			SET updated_at=@p1, table_id=@p2, total=@p3 
+			WHERE order_id=@p4
 		`
 
 		_, updateErr := database.DB.ExecContext(ctx, updateQuery,
-			order.OrderDate,
-			order.Created_at,
 			order.Updated_at,
 			order.TableID,
 			order.Total,
