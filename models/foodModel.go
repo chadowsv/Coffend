@@ -12,3 +12,9 @@ type Food struct {
 	Updated_at  time.Time `json:"updated_at"`
 	MenuID      int       `json:"menu_id" validate:"required"`
 }
+type FoodMenu struct {
+	MenuID      int     `json:"menu_id" validate:"required"`
+	Name        string  `json:"name" validate:"required,min=2,max=100"`
+	Description string  `json:"description" validate:"required"`
+	Price       float64 `json:"price" validate:"required"`
+}

@@ -11,6 +11,76 @@ import (
 	"github.com/go-playground/validator/v10"
 )
 
+type MenuCompleteViewFormat struct {
+	MenuID       int    `json:"menu_id"`
+	MenuName     string `json:"menuname"`
+	MenuStatus   bool   `json:"menu_status" validate:"required"`
+	FoodsDetails []models.FoodMenu
+}
+
+func GetMenuCom() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		ctx, cancel := context.WithTimeout(context.Background(), 100*time.Second)
+		defer cancel()
+
+		// Obtener todos los menús
+		queryMenu := "SELECT menu_id, name as menuname, menu_status FROM Menus"
+		rows, err := database.DB.QueryContext(ctx, queryMenu)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Error fetching menus"})
+			return
+		}
+		defer rows.Close()
+
+		var menus []MenuCompleteViewFormat
+
+		for rows.Next() {
+			var menu MenuCompleteViewFormat
+			err := rows.Scan(&menu.MenuID, &menu.MenuName, &menu.MenuStatus)
+			if err != nil {
+				c.JSON(http.StatusInternalServerError, gin.H{"error": "Error scanning menu"})
+				return
+			}
+
+			// Obtener los alimentos de este menú
+			foodsItems, err := FoodsByMenu(menu.MenuID)
+			if err != nil {
+				c.JSON(http.StatusInternalServerError, gin.H{"error": "Error fetching foods"})
+				return
+			}
+			menu.FoodsDetails = foodsItems
+
+			menus = append(menus, menu)
+		}
+
+		c.JSON(http.StatusOK, menus)
+	}
+}
+
+// Ahora filtramos los alimentos por menú
+func FoodsByMenu(menuID int) ([]models.FoodMenu, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 100*time.Second)
+	defer cancel()
+
+	query := `SELECT menu_id, name, description, price FROM Foods WHERE menu_id = @p1`
+	rows, err := database.DB.QueryContext(ctx, query, menuID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var foods []models.FoodMenu
+	for rows.Next() {
+		var food models.FoodMenu
+		err := rows.Scan(&food.MenuID, &food.Name, &food.Description, &food.Price)
+		if err != nil {
+			return nil, err
+		}
+		foods = append(foods, food)
+	}
+	return foods, nil
+}
+
 func GetMenus() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		//Contexto creado para que no dure tanto
