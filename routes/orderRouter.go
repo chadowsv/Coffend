@@ -2,13 +2,15 @@ package routes
 
 import (
 	controller "coffend/controllers"
+	"coffend/middleware"
 
 	"github.com/gin-gonic/gin"
 )
 
 func OrderRoutes(incomingRoutes *gin.Engine) {
-	incomingRoutes.GET("/orders", controller.GetOrders())
-	incomingRoutes.GET("/orders/:order_id", controller.GetOrder())
-	incomingRoutes.POST("/orders", controller.CreateOrder())
-	incomingRoutes.PATCH("/orders/:order_id", controller.UpdateOrder())
+	incomingRoutes.GET("/orders", middleware.AuthRequired(), middleware.AdminOnly(), controller.GetAllOrders())
+	incomingRoutes.GET("/orders/:order_id", middleware.AuthRequired(), controller.GetOrderByID())
+	incomingRoutes.POST("/orders", middleware.AuthRequired(), controller.PostOrder())
+	incomingRoutes.PATCH("/orders/:order_id", middleware.AuthRequired(), controller.PatchOrderByID())
+	incomingRoutes.DELETE("/orders/:order_id", middleware.AuthRequired(), controller.DeleteOrderByID())
 }

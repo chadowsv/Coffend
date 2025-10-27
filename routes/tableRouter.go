@@ -2,13 +2,15 @@ package routes
 
 import (
 	controller "coffend/controllers"
+	"coffend/middleware"
 
 	"github.com/gin-gonic/gin"
 )
 
 func TableRoutes(incomingRoutes *gin.Engine) {
-	incomingRoutes.GET("/tables", controller.GetTables())
-	incomingRoutes.GET("/tables/:table_id", controller.GetTable())
-	incomingRoutes.POST("/tables", controller.CreateTable())
-	incomingRoutes.PATCH("/tables/:table_id", controller.UpdateTable())
+	incomingRoutes.GET("/tables", middleware.AuthRequired(), controller.GetAllTables())
+	incomingRoutes.GET("/tables/:table_id", middleware.AuthRequired(), controller.GetTableByID())
+	incomingRoutes.POST("/tables", middleware.AuthRequired(), middleware.AdminOnly(), controller.PostTable())
+	incomingRoutes.PATCH("/tables/:table_id", middleware.AuthRequired(), middleware.AdminOnly(), controller.PatchTableByID())
+	incomingRoutes.DELETE("/tables/:table_id", middleware.AuthRequired(), middleware.AdminOnly(), controller.DeleteTableByID())
 }

@@ -2,13 +2,15 @@ package routes
 
 import (
 	controller "coffend/controllers"
+	"coffend/middleware"
 
 	"github.com/gin-gonic/gin"
 )
 
 func MenuRoutes(incomingRoutes *gin.Engine) {
-	incomingRoutes.GET("/menus", controller.GetMenus())
-	incomingRoutes.GET("/menus/:menu_id", controller.GetMenu())
-	incomingRoutes.POST("/menus", controller.CreateMenu())
-	incomingRoutes.PATCH("/menus/:menu_id", controller.UpdateMenu())
+	incomingRoutes.GET("/menus", controller.GetAllMenus())
+	incomingRoutes.GET("/menus/:menu_id", controller.GetMenuByID())
+	incomingRoutes.POST("/menus", middleware.AuthRequired(), middleware.AdminOnly(), controller.PostMenu())
+	incomingRoutes.PATCH("/menus/:menu_id", middleware.AuthRequired(), middleware.AdminOnly(), controller.UpdateMenuByID())
+	incomingRoutes.DELETE("/menus/:menu_id", middleware.AuthRequired(), middleware.AdminOnly(), controller.DeleteMenuByID())
 }
