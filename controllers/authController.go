@@ -52,7 +52,7 @@ func Login() gin.HandlerFunc {
 			return
 		}
 
-		if err := database.DB.First(&user, input.Email).Error; err != nil {
+		if err := database.DB.Where("email = ?", input.Email).First(&user).Error; err != nil {
 			c.JSON(401, gin.H{"error": "Invalid email or password"})
 			return
 		}

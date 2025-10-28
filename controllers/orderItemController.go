@@ -77,28 +77,14 @@ func PostOrderItem() gin.HandlerFunc {
 		ctx, cancel := context.WithTimeout(context.Background(), 100*time.Second)
 		defer cancel()
 
-		var newOrderItem models.OrderItem
+		var newOrderItems []models.OrderItem
 
-		if err := c.BindJSON(&newOrderItem); err != nil {
+		if err := c.BindJSON(&newOrderItems); err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
 		}
 
-		if validationErr := validate.Struct(newOrderItem); validationErr != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": validationErr.Error()})
-			return
-		}
-
-		orderItem := models.OrderItem{
-			Quantity:  newOrderItem.Quantity,
-			UnitPrice: newOrderItem.UnitPrice,
-			CreatedAt: time.Now(),
-			UpdatedAt: time.Now(),
-			OrderID:   newOrderItem.OrderID,
-			FoodID:    newOrderItem.FoodID,
-		}
-
-		if err := database.DB.WithContext(ctx).Create(&orderItem).Error; err != nil {
+		if err := database.DB.WithContext(ctx).Create(&newOrderItems).Error; err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create order item"})
 			return
 		}

@@ -32,27 +32,23 @@ func GetInvoiceByID() gin.HandlerFunc {
 		defer cancel()
 
 		invoiceId := c.Param("invoice_id")
-
 		var invoice models.Invoice
+
 		if err := database.DB.WithContext(ctx).
-			Preload("Details.OrderItem").
-			Preload("Details.OrderItem.Food").
+			Preload("Order.OrderItems.Food").
+			Preload("Order.Table").
 			First(&invoice, "invoice_id = ?", invoiceId).Error; err != nil {
 			c.JSON(http.StatusNotFound, gin.H{"error": "Invoice not found"})
 			return
 		}
 
-		var tableID int
-		if err := database.DB.WithContext(ctx).
-			Model(&models.Order{}).
-			Select("table_id").
-			Where("order_id = ?", invoice.OrderID).
-			Scan(&tableID).Error; err == nil {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to retrieve table number"})
-			return
+		if invoice.Order != nil && invoice.Order.Table != nil && invoice.Order.Table.TableID != 0 {
+			invoice.TableNumber = invoice.Order.Table.TableID
 		}
 
-		invoice.TableNumber = tableID
+		if invoice.Order != nil {
+			invoice.OrderDetails = invoice.Order.OrderItems
+		}
 
 		c.JSON(http.StatusOK, invoice)
 	}
@@ -70,19 +66,15 @@ func PostInvoice() gin.HandlerFunc {
 			return
 		}
 
-		// Validate the structure
-		if err := database.DB.WithContext(ctx).First(&models.Order{}, "order_id = ?", newInvoice.OrderID).Error; err != nil {
+		var order models.Order
+		if err := database.DB.WithContext(ctx).
+			Preload("OrderItems").
+			First(&order, "order_id = ?", newInvoice.OrderID).Error; err != nil {
 			c.JSON(400, gin.H{"error": "Order not found"})
 			return
 		}
 
-		var orderItems []models.OrderItem
-		if err := database.DB.WithContext(ctx).Where("order_id = ?", newInvoice.OrderID).Find(&orderItems).Error; err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": "Error fetching order items"})
-			return
-		}
-
-		if len(orderItems) == 0 {
+		if len(order.OrderItems) == 0 {
 			c.JSON(http.StatusBadRequest, gin.H{"error": "Order has no items"})
 			return
 		}
@@ -90,9 +82,10 @@ func PostInvoice() gin.HandlerFunc {
 		// Calculate total
 		var total float64
 		var iva float64 = 1.15
-		for _, item := range orderItems {
+		for _, item := range order.OrderItems {
 			total += float64(item.Quantity) * float64(item.UnitPrice)
 		}
+
 		if newInvoice.IVA {
 			total *= iva
 		}
@@ -114,19 +107,18 @@ func PostInvoice() gin.HandlerFunc {
 			return
 		}
 
-		// Create invoice details
-		var invoiceDetails []models.InvoiceDetail
-		for _, item := range orderItems {
-			invoiceDetails = append(invoiceDetails, models.InvoiceDetail{
-				InvoiceID: invoice.InvoiceID,
-				ItemID:    item.OrderItemID,
-				Quantity:  int(item.Quantity),
-				Price:     float64(item.UnitPrice),
-			})
+		if err := database.DB.WithContext(ctx).
+			Model(&models.Order{}).
+			Where("order_id = ?", newInvoice.OrderID).
+			Update("total", total).Error; err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update order total"})
+			return
 		}
 
-		if err := database.DB.WithContext(ctx).Create(&invoiceDetails).Error; err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create invoice details"})
+		if err := database.DB.WithContext(ctx).
+			Preload("Order.OrderItems.Food").
+			First(&invoice, invoice.InvoiceID).Error; err == nil {
+			c.JSON(http.StatusCreated, invoice)
 			return
 		}
 
