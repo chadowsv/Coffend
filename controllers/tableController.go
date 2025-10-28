@@ -4,162 +4,110 @@ import (
 	"coffend/database"
 	"coffend/models"
 	"context"
-	"log"
 	"net/http"
 	"time"
 
 	"github.com/gin-gonic/gin"
 )
 
-func GetTables() gin.HandlerFunc {
+func GetAllTables() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		//Contexto para que no dure tanto
 		ctx, cancel := context.WithTimeout(context.Background(), 100*time.Second)
 		defer cancel()
+
 		var tables []models.Table
-		queryTables := "SELECT * FROM Tables"
-		rows, err := database.DB.QueryContext(ctx, queryTables)
-		if err != nil {
-			c.JSON(500, gin.H{"error": "Database error"})
+
+		if err := database.DB.WithContext(ctx).Find(&tables).Error; err != nil {
+			c.JSON(500, gin.H{"error": "Error fetching tables"})
 			return
 		}
-		defer rows.Close()
-		for rows.Next() {
-			var table models.Table
-			err := rows.Scan(
-				&table.TableID,
-				&table.NumberGuests,
-				&table.Status,
-				&table.Created_at,
-				&table.Updated_at,
-			)
-			if err != nil {
-				c.JSON(500, gin.H{"error": "Failed to parse order"})
-				return
-			}
-			tables = append(tables, table)
-		}
+
 		c.JSON(200, tables)
 	}
 }
 
-func GetTable() gin.HandlerFunc {
+func GetTableByID() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		ctx, cancel := context.WithTimeout(context.Background(), 100*time.Second)
 		defer cancel()
+
 		tableId := c.Param("table_id")
 		var table models.Table
-		queryTable := "	SELECT * FROM Tables WHERE table_id= @p1"
-		err := database.DB.QueryRowContext(ctx, queryTable, tableId).Scan(
-			&table.TableID,
-			&table.NumberGuests,
-			&table.Status,
-			&table.Created_at,
-			&table.Updated_at,
-		)
-		if err != nil {
-			c.JSON(404, gin.H{"error": "Table not created."})
+
+		if err := database.DB.WithContext(ctx).First(&table, tableId).Error; err != nil {
+			c.JSON(404, gin.H{"error": "Table not found."})
 			return
 		}
+
 		c.JSON(200, table)
 	}
 }
 
-func CreateTable() gin.HandlerFunc {
+func PostTable() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		ctx, cancel := context.WithTimeout(context.Background(), 100*time.Second)
 		defer cancel()
-		var table models.Table
-		if err := c.BindJSON(&table); err != nil {
+
+		var newTable models.Table
+
+		if err := c.BindJSON(&newTable); err != nil {
 			c.JSON(400, gin.H{"error": err.Error()})
 			return
 		}
-		validationErr := validate.Struct(table)
-		if validationErr != nil {
+
+		if validationErr := validate.Struct(newTable); validationErr != nil {
 			c.JSON(400, gin.H{"error": validationErr.Error()})
 			return
 		}
-		table.Created_at = time.Now()
-		table.Updated_at = time.Now()
-		insertQuery := "INSERT INTO Tables (table_id, number_guests,status,created_at, updated_at) VALUES (@p1,@p2,@p3,@p4,@p5)"
-		_, insertErr := database.DB.ExecContext(ctx, insertQuery,
-			table.TableID,
-			table.NumberGuests,
-			table.Status,
-			table.Created_at,
-			table.Updated_at,
-		)
-		if insertErr != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to connect create table"})
+
+		table := models.Table{
+			NumberGuests: newTable.NumberGuests,
+			Status:       newTable.Status,
+			CreatedAt:    time.Now(),
+			UpdatedAt:    time.Now(),
+		}
+
+		if err := database.DB.WithContext(ctx).Create(&table).Error; err != nil {
+			c.JSON(500, gin.H{"error": "Failed to create table"})
 			return
 		}
+
 		c.JSON(http.StatusCreated, table)
 	}
 }
-func UpdateTable() gin.HandlerFunc {
+
+func PatchTableByID() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		ctx, cancel := context.WithTimeout(context.Background(), 100*time.Second)
 		defer cancel()
 
-		// Obtener ID de la URL
 		tableID := c.Param("table_id")
-
+		var inputTable models.Table
 		var table models.Table
-		if err := c.BindJSON(&table); err != nil {
+
+		if err := c.BindJSON(&inputTable); err != nil {
 			c.JSON(400, gin.H{"error": err.Error()})
 			return
 		}
 
-		// Validación
-		if validationErr := validate.Struct(table); validationErr != nil {
+		if validationErr := validate.Struct(inputTable); validationErr != nil {
 			c.JSON(400, gin.H{"error": validationErr.Error()})
 			return
 		}
 
-		// Verificar que la mesa existe (usando el ID de la URL)
-		var existingTableID int
-		err := database.DB.QueryRowContext(ctx,
-			"SELECT table_id FROM Tables WHERE table_id = @p1",
-			tableID).Scan(&existingTableID)
-
-		if err != nil {
-			c.JSON(404, gin.H{"error": "Table not found"})
+		if err := database.DB.WithContext(ctx).First(&table, tableID).Error; err != nil {
+			c.JSON(404, gin.H{"error": "Table not found."})
 			return
 		}
 
-		// Actualizar campos
-		table.Updated_at = time.Now()
-
-		// Query de actualización
-		updateQuery := `
-            UPDATE Tables
-            SET number_guests = @p1, 
-                status = @p2, 
-                updated_at = @p3
-            WHERE table_id = @p4
-        `
-
-		// Ejecutar actualización
-		result, err := database.DB.ExecContext(ctx, updateQuery,
-			table.NumberGuests,
-			table.Status,
-			table.Updated_at,
-			tableID, // Usar el ID de la URL, no del JSON
-		)
-
-		if err != nil {
-			log.Printf("Error updating table: %v", err) // Log detallado
-			c.JSON(500, gin.H{
-				"error":   "Failed to update table",
-				"details": err.Error(), // Solo para desarrollo
-			})
-			return
+		updates := map[string]interface{}{
+			"number_guests": table.NumberGuests,
+			"status":        table.Status,
+			"updated_at":    time.Now(),
 		}
 
-		// Verificar si realmente se actualizó
-		rowsAffected, _ := result.RowsAffected()
-		if rowsAffected == 0 {
-			c.JSON(404, gin.H{"error": "No changes made - table not found"})
+		if err := database.DB.WithContext(ctx).Model(&table).Updates(updates).Error; err != nil {
+			c.JSON(500, gin.H{"error": "Failed to update table"})
 			return
 		}
 
@@ -171,5 +119,21 @@ func UpdateTable() gin.HandlerFunc {
 				"status":        table.Status,
 			},
 		})
+	}
+}
+
+func DeleteTableByID() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		ctx, cancel := context.WithTimeout(context.Background(), 100*time.Second)
+		defer cancel()
+
+		tableID := c.Param("table_id")
+
+		if err := database.DB.WithContext(ctx).Delete(&models.Table{}, tableID).Error; err != nil {
+			c.JSON(500, gin.H{"error": "Failed to delete table"})
+			return
+		}
+
+		c.JSON(200, gin.H{"message": "Table deleted successfully"})
 	}
 }

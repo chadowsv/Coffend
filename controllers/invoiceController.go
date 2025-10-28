@@ -10,132 +10,170 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type InvoiceViewFormat struct {
-	InvoiceID      int
-	PaymentMethod  *string
-	OrderID        int
-	PaymentStatus  bool
-	PaymentDue     float64
-	TableNumber    int
-	PaymentDueDate time.Time
-	OrderDetails   []models.OrderItemExtended
-}
-
-func GetInvoices() gin.HandlerFunc {
+func GetAllInvoices() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		ctx, cancel := context.WithTimeout(context.Background(), 100*time.Second)
 		defer cancel()
+
 		var invoices []models.Invoice
-		queryInvoices := "SELECT * FROM Invoices"
-		rows, err := database.DB.QueryContext(ctx, queryInvoices)
-		if err != nil {
+
+		if err := database.DB.WithContext(ctx).Find(&invoices).Error; err != nil {
 			c.JSON(500, gin.H{"error": "Database error"})
 			return
 		}
-		defer rows.Close()
-		for rows.Next() {
-			var invoice models.Invoice
-			err := rows.Scan(
-				&invoice.InvoiceID,
-				&invoice.OrderID,
-				&invoice.Iva,
-				&invoice.Total,
-				&invoice.PaymentMethod,
-				&invoice.PaymentStatus,
-				&invoice.Payment_due_date,
-				&invoice.Created_at,
-				&invoice.Updated_at,
-			)
-			if err != nil {
-				c.JSON(500, gin.H{"error": "Failed to parse invoice"})
-				return
-			}
-			invoices = append(invoices, invoice)
-		}
+
 		c.JSON(200, invoices)
 	}
 }
 
-func GetInvoice() gin.HandlerFunc {
+func GetInvoiceByID() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		ctx, cancel := context.WithTimeout(context.Background(), 100*time.Second)
 		defer cancel()
+
 		invoiceId := c.Param("invoice_id")
-		var invoice InvoiceViewFormat
-		queryInvoice := "SELECT invoice_id, payment_method, order_id, payment_status, total FROM Invoices WHERE invoice_id = @p1"
-		insertErr := database.DB.QueryRowContext(ctx, queryInvoice, invoiceId).Scan(
-			&invoice.InvoiceID,
-			&invoice.PaymentMethod,
-			&invoice.OrderID,
-			&invoice.PaymentStatus,
-			&invoice.PaymentDue,
-		)
-		if insertErr != nil {
-			c.JSON(404, gin.H{"error": "Invoice not found."})
-			return
-		}
-		// 2. Obtener datos adicionales de la orden (por ejemplo, número de mesa)
-		queryOrder := `SELECT table_id FROM Orders WHERE order_id = @p1`
-		err := database.DB.QueryRowContext(ctx, queryOrder, invoice.OrderID).Scan(&invoice.TableNumber)
-		if err != nil {
-			c.JSON(500, gin.H{"error": "Order data not found."})
+		var invoice models.Invoice
+
+		if err := database.DB.WithContext(ctx).
+			Preload("Order.OrderItems.Food").
+			Preload("Order.Table").
+			First(&invoice, "invoice_id = ?", invoiceId).Error; err != nil {
+			c.JSON(http.StatusNotFound, gin.H{"error": "Invoice not found"})
 			return
 		}
 
-		// 3. Obtener detalles de los items de la orden usando tu función ItemsByOrder
-		orderItems, err := ItemsByOrder(invoice.OrderID)
-		if err != nil {
-			c.JSON(500, gin.H{"error": "Error fetching order items."})
-			return
+		if invoice.Order != nil && invoice.Order.Table != nil && invoice.Order.Table.TableID != 0 {
+			invoice.TableNumber = invoice.Order.Table.TableID
 		}
-		invoice.OrderDetails = orderItems
 
-		// 4. Devolver la estructura completa como JSON
-		//Al usar c.JSON() el paquete encoding/json serializa automaticamente los structs convirtiendo a minusculas
+		if invoice.Order != nil {
+			invoice.OrderDetails = invoice.Order.OrderItems
+		}
+
 		c.JSON(http.StatusOK, invoice)
 	}
 }
 
-func CreateInvoice() gin.HandlerFunc {
+func PostInvoice() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		ctx, cancel := context.WithTimeout(context.Background(), 100*time.Second)
 		defer cancel()
-		var invoice models.Invoice
 
-		// Validar entrada JSON
-		if err := c.BindJSON(&invoice); err != nil {
+		var newInvoice models.Invoice
+
+		if err := c.BindJSON(&newInvoice); err != nil {
 			c.JSON(400, gin.H{"error": err.Error()})
 			return
 		}
+
 		var order models.Order
-		erro := database.DB.QueryRowContext(ctx,
-			"SELECT order_id FROM Orders WHERE order_id = @p1", invoice.OrderID).Scan(&order.OrderID)
-		if erro != nil {
+		if err := database.DB.WithContext(ctx).
+			Preload("OrderItems").
+			First(&order, "order_id = ?", newInvoice.OrderID).Error; err != nil {
 			c.JSON(400, gin.H{"error": "Order not found"})
 			return
 		}
-		invoice.Created_at = time.Now()
-		invoice.Updated_at = time.Now()
-		insertQuery := "INSERT INTO Invoices (order_id,iva,total,payment_method,payment_status,payment_due_date,created_at,updated_at) VALUES (@p1,@p2,@p3,@p4,@p5,@p6,@p7,@p8)"
-		_, insertErr := database.DB.ExecContext(ctx, insertQuery,
-			invoice.OrderID,
-			invoice.Iva,
-			invoice.Total,
-			invoice.PaymentMethod,
-			invoice.PaymentStatus,
-			invoice.Payment_due_date,
-			invoice.Created_at,
-			invoice.Updated_at,
-		)
-		if insertErr != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to connect create invoice"})
+
+		if len(order.OrderItems) == 0 {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "Order has no items"})
 			return
 		}
+
+		// Calculate total
+		var total float64
+		var iva float64 = 1.15
+		for _, item := range order.OrderItems {
+			total += float64(item.Quantity) * float64(item.UnitPrice)
+		}
+
+		if newInvoice.IVA {
+			total *= iva
+		}
+
+		// Create the invoice
+		invoice := models.Invoice{
+			OrderID:        newInvoice.OrderID,
+			IVA:            newInvoice.IVA,
+			Total:          total,
+			PaymentMethod:  newInvoice.PaymentMethod,
+			PaymentStatus:  newInvoice.PaymentStatus,
+			PaymentDueDate: newInvoice.PaymentDueDate,
+			CreatedAt:      time.Now(),
+			UpdatedAt:      time.Now(),
+		}
+
+		if err := database.DB.WithContext(ctx).Create(&invoice).Error; err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create invoice"})
+			return
+		}
+
+		if err := database.DB.WithContext(ctx).
+			Model(&models.Order{}).
+			Where("order_id = ?", newInvoice.OrderID).
+			Update("total", total).Error; err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update order total"})
+			return
+		}
+
+		if err := database.DB.WithContext(ctx).
+			Preload("Order.OrderItems.Food").
+			First(&invoice, invoice.InvoiceID).Error; err == nil {
+			c.JSON(http.StatusCreated, invoice)
+			return
+		}
+
 		c.JSON(http.StatusCreated, invoice)
 	}
 }
 
-func UpdateInvoice() gin.HandlerFunc {
+func PatchInvoiceByID() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		ctx, cancel := context.WithTimeout(context.Background(), 100*time.Second)
+		defer cancel()
+
+		invoiceId := c.Param("invoice_id")
+		var inputInvoice models.Invoice
+		var invoice models.Invoice
+
+		if err := c.BindJSON(&inputInvoice); err != nil {
+			c.JSON(400, gin.H{"error": err.Error()})
+			return
+		}
+
+		if err := validate.Struct(inputInvoice); err != nil {
+			c.JSON(400, gin.H{"error": err.Error()})
+			return
+		}
+
+		if err := database.DB.WithContext(ctx).First(&invoice, invoiceId).Error; err != nil {
+			c.JSON(400, gin.H{"error": "Invoice not found"})
+			return
+		}
+
+		if err := database.DB.WithContext(ctx).First(&models.Order{}, "order_id = ?", invoice.OrderID).Error; err != nil {
+			c.JSON(400, gin.H{"error": "Order not found"})
+			return
+		}
+
+		// Update invoice fields
+		updates := map[string]interface{}{
+			"order_id":         inputInvoice.OrderID,
+			"payment_method":   inputInvoice.PaymentMethod,
+			"payment_status":   inputInvoice.PaymentStatus,
+			"payment_due_date": inputInvoice.PaymentDueDate,
+			"updated_at":       time.Now(),
+		}
+
+		if err := database.DB.WithContext(ctx).Model(&invoice).Updates(updates).Error; err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update invoice"})
+			return
+		}
+
+		c.JSON(http.StatusOK, gin.H{"message": "Invoice updated successfully", "invoice": invoice})
+	}
+}
+
+func DeleteInvoiceByID() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		ctx, cancel := context.WithTimeout(context.Background(), 100*time.Second)
 		defer cancel()
@@ -143,50 +181,11 @@ func UpdateInvoice() gin.HandlerFunc {
 		invoiceId := c.Param("invoice_id")
 		var invoice models.Invoice
 
-		// Validar entrada JSON
-		if err := c.BindJSON(&invoice); err != nil {
-			c.JSON(400, gin.H{"error": err.Error()})
+		if err := database.DB.WithContext(ctx).Delete(&invoice, invoiceId).Error; err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to delete invoice"})
 			return
 		}
 
-		// Validar estructura
-		if err := validate.Struct(invoice); err != nil {
-			c.JSON(400, gin.H{"error": err.Error()})
-			return
-		}
-		//Comprobar si la orden existe
-		// Verificar que la orden existe
-		var order models.Order
-		erro := database.DB.QueryRowContext(ctx,
-			"SELECT order_id FROM Orders WHERE order_id = @p1", invoice.OrderID).Scan(&order.OrderID)
-		if erro != nil {
-			c.JSON(400, gin.H{"error": "Order not found"})
-			return
-		}
-		// Actualizar campos permitidos
-		query := `
-			UPDATE Invoices SET
-				order_id = @p1,
-				payment_method = @p2,
-				payment_status = @p3,
-				payment_due_date = @p4,
-				updated_at = @p5
-			WHERE invoice_id = @p6
-		`
-
-		_, err := database.DB.ExecContext(ctx, query,
-			invoice.OrderID,
-			invoice.PaymentMethod,
-			invoice.PaymentStatus,
-			invoice.Payment_due_date,
-			time.Now(),
-			invoiceId,
-		)
-		if err != nil {
-			c.JSON(500, gin.H{"error": "Failed to update invoice"})
-			return
-		}
-
-		c.JSON(200, gin.H{"message": "Invoice updated successfully"})
+		c.JSON(http.StatusOK, gin.H{"message": "Invoice deleted successfully"})
 	}
 }
