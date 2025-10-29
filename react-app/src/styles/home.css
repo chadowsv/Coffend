@@ -2,7 +2,7 @@ body {
     background-image: url('../../public/background.webp');
 }
 
-.home-nav {
+.navbar {
   background-color: #008f31;
   padding: 10px 20px;
   height: 75px;
@@ -11,7 +11,7 @@ body {
   justify-content: right;
 }
 
-.home-nav a {
+.navbar a {
     color: white;
     font-family: 'Arial', sans-serif;
     font-size: 30px;
@@ -19,6 +19,6 @@ body {
     text-decoration: none;
 }
 
-.home-nav a:hover {
+.navbar a:hover {
   font-weight: bold;
 }
