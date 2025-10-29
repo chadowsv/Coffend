@@ -1,4 +1,4 @@
-module coffend
+module coffend/backend
 
 go 1.24.2
 

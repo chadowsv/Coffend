@@ -1,8 +1,8 @@
 package main
 
 import (
-	"coffend/database"
-	"coffend/routes"
+	"coffend/backend/database"
+	"coffend/backend/routes"
 	"os"
 
 	"github.com/gin-gonic/gin"

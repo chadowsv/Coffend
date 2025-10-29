@@ -1,7 +1,7 @@
 package middleware
 
 import (
-	"coffend/utils"
+	"coffend/backend/utils"
 	"strings"
 
 	"github.com/gin-gonic/gin"

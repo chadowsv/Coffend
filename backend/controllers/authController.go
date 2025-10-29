@@ -1,9 +1,9 @@
 package controllers
 
 import (
-	"coffend/database"
-	"coffend/models"
-	"coffend/utils"
+	"coffend/backend/database"
+	"coffend/backend/models"
+	"coffend/backend/utils"
 	"time"
 
 	"github.com/gin-gonic/gin"

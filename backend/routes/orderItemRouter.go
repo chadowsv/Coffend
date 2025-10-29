@@ -1,8 +1,8 @@
 package routes
 
 import (
-	controller "coffend/controllers"
-	"coffend/middleware"
+	controller "coffend/backend/controllers"
+	"coffend/backend/middleware"
 
 	"github.com/gin-gonic/gin"
 )

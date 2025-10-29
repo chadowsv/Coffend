@@ -1,8 +1,8 @@
 package controllers
 
 import (
-	"coffend/database"
-	"coffend/models"
+	"coffend/backend/database"
+	"coffend/backend/models"
 	"context"
 	"net/http"
 	"time"
