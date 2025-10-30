@@ -5,6 +5,7 @@ export default function Navbar() {
       <div className="navbar-links">
         <a href="/login">Iniciar sesión</a>
         <a href="/register">Registrarse</a>
+        <a href="/menu">Menú</a>
       </div>
     </nav>
   );
