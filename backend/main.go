@@ -4,7 +4,9 @@ import (
 	"coffend/backend/database"
 	"coffend/backend/routes"
 	"os"
+	"time"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
@@ -19,6 +21,15 @@ func main() {
 	router := gin.New()
 	router.Use(gin.Logger())
 
+	router.Use(cors.New(cors.Config{
+		AllowOrigins:     []string{"http://localhost:3000"}, // frontend
+		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowHeaders:     []string{"Origin", "Content-Type", "Authorization"},
+		ExposeHeaders:    []string{"Content-Length"},
+		AllowCredentials: true,
+		MaxAge:           12 * time.Hour,
+	}))
+
 	routes.AuthRoutes(router)
 	routes.FoodRoutes(router)
 	routes.InvoiceRoutes(router)
@@ -29,7 +40,7 @@ func main() {
 
 	router.GET("/", func(c *gin.Context) {
 		c.JSON(200, gin.H{
-			"message": "Servidor funcionando correctamente",
+			"message": "Servidor funcionando correctamente 🚀",
 		})
 	})
 

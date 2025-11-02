@@ -19,7 +19,9 @@ func GetAllMenus() gin.HandlerFunc {
 
 		var menus []models.Menu
 
-		if err := database.DB.WithContext(ctx).Find(&menus).Error; err != nil {
+		if err := database.DB.WithContext(ctx).
+			Preload("Foods").
+			Find(&menus).Error; err != nil {
 			c.JSON(500, gin.H{"error": "Error fetching menus"})
 			return
 		}
