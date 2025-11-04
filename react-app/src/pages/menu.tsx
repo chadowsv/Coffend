@@ -3,6 +3,7 @@
 //menu es para las interfaces y decirle a ts como luce cada menu
 import React, { useEffect, useState } from "react";
 import { Menu } from "../interfaces/Menu";
+import Navbar from "../components/Navbar";
 //Se crea un componente con React llamado Menus
 const Menus: React.FC = () => {
 
@@ -23,6 +24,7 @@ const Menus: React.FC = () => {
 
   return (
     <div>
+      <Navbar />
       <h1>Menús</h1>
       {menus.map((menu) => (
         <div key={menu.menu_id} className="menu">

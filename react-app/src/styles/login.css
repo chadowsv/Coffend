@@ -1,0 +1,19 @@
+.login_container{
+    display: flex;
+    flex-direction: column;
+    margin: 20px auto;
+    height: 85vh;
+    width: 90%;
+    align-items: center;
+    justify-content: center;
+    background-color: #e0dede;
+    color: #2f2f2f;
+    border-radius: 50px;
+}
+
+.titulo_inicio_sesion{
+    font-family: "Alex Brush";
+    font-size: 120px;
+    color: #90bb47;
+    margin: 0 auto;
+}
