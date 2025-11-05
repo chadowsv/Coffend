@@ -79,6 +79,16 @@ func Login() gin.HandlerFunc {
 			return
 		}
 
-		c.JSON(200, gin.H{"message": "Login successful"})
+		c.JSON(200, gin.H{
+			"message":       "Login successful",
+			"token":         accessToken,
+			"refresh_token": refreshToken,
+			"user": gin.H{
+				"id":    user.UserID,
+				"email": user.Email,
+				"role":  user.Role,
+			},
+		})
+
 	}
 }

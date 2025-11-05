@@ -3,6 +3,7 @@
 //menu es para las interfaces y decirle a ts como luce cada menu
 import React, { useEffect, useState } from "react";
 import { Menu } from "../interfaces/Menu";
+import Navbar from "../components/Navbar";
 //Se crea un componente con React llamado Menus
 const Menus: React.FC = () => {
 
@@ -23,6 +24,7 @@ const Menus: React.FC = () => {
 
   return (
     <div>
+      <Navbar />
       <h1>Menú</h1>
       {menus.map((menu) => (
   <div key={menu.menu_id} className="menu">
@@ -33,14 +35,11 @@ const Menus: React.FC = () => {
         {menu.foods.map((food) => (
           <li key={food.food_id}>
             <strong>{food.name}</strong> - ${food.price.toFixed(2)}
-            {/* Muestra la descripción solo en esos menús */}
             {food.description && <p>{food.description}</p>}
           </li>
         ))}
       </ul>
     )}
-
-    {/* En los otros menús, muestra solo nombre y precio */}
     {menu.menu_id !== 2 && menu.menu_id !== 4 && menu.menu_id !== 8 && (
       <ul>
         {menu.foods.map((food) => (
