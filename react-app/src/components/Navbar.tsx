@@ -3,9 +3,9 @@ export default function Navbar() {
     <nav className="navbar">
       <a href="/" className="navbar-logo">La Esquina del Verde</a>
       <div className="navbar-links">
+        <a href="/menu">Menú</a>
         <a href="/login">Login</a>
         <a href="/register">Registrarse</a>
-        <a href="/menu">Menú</a>
       </div>
     </nav>
   );
