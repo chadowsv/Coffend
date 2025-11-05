@@ -18,6 +18,7 @@ func Register() gin.HandlerFunc {
 			c.JSON(400, gin.H{"error": err.Error()})
 			return
 		}
+		user.Role = "cliente" // asignar rol por defecto aunque lo cambie en el formulario de registro se queda el valor
 
 		hashedPassword, err := utils.HashPassword(user.Password)
 		if err != nil {
