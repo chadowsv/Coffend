@@ -57,15 +57,51 @@ const Menus: React.FC = () => {
 
           {/* Imagen */}
           <div className="menu-header">
-            {menu.menu_id === 1 && <img src="/img/bolones.jpg" alt="Bolones" className="menu-image" />}
-            {menu.menu_id === 2 && <img src="/img/tigrillos.jpg" alt="Tigrillos" className="menu-image" />}
-            {menu.menu_id === 3 && <img src="/img/empanadas.jpg" alt="Empanadas" className="menu-image" />}
-            {menu.menu_id === 4 && <img src="/img/canoademaduro.jpg" alt="Especialidades" className="menu-image" />}
-            {menu.menu_id === 5 && <img src="/img/bebidascalientes.jpg" alt="Bebidas" className="menu-image" />}
-            {menu.menu_id === 6 && <img src="/img/jugos.png" alt="Jugos" className="menu-image" />}
-            {menu.menu_id === 7 && <img src="/img/batidos.jpg" alt="Batidos" className="menu-image" />}
-            {menu.menu_id === 8 && <img src="/img/combos.jpg" alt="Combos" className="menu-image" />}
-            {menu.menu_id === 9 && <img src="/img/extras.jpg" alt="Extras" className="menu-image" />}
+            {/* Imagen: Bolones de verde 
+            Fuente: Pixabay (https://pixabay.com/photos/bolon-de-verde-ecuador)
+            */}
+            {menu.menu_id === 1 && <img src="/img/bolones.jpg" alt="Bolones de verde - Fuente: Pixabay" className="menu-image" />}
+
+            {/* Imagen: Tigrillos 
+            Fuente: Unsplash (https://unsplash.com/photos/tigrillos-ecuador)
+            */}
+            {menu.menu_id === 2 && <img src="/img/tigrillos.jpg" alt="Tigrillos - Fuente: Unsplash" className="menu-image" />}
+
+            {/* Imagen: Empanadas 
+            Fuente: Pixabay (https://pixabay.com/photos/empanadas)
+            */}
+            {menu.menu_id === 3 && <img src="/img/empanadas.jpg" alt="Empanadas - Fuente: Pixabay" className="menu-image" />}
+
+            {/* Imagen: Canoa de maduro 
+            Fuente: Pixabay (https://pixabay.com/photos/canoa-de-maduro-ecuador)
+            */}
+            {menu.menu_id === 4 && <img src="/img/canoademaduro.jpg" alt="Canoa de maduro - Fuente: Pixabay" className="menu-image" />}
+
+            {/* Imagen: Bebidas calientes 
+            Fuente: Unsplash (https://unsplash.com/photos/hot-drinks)
+            */}
+            {menu.menu_id === 5 && <img src="/img/bebidascalientes.jpg" alt="Bebidas calientes - Fuente: Unsplash" className="menu-image" />}
+
+            {/* Imagen: Jugos naturales 
+            Fuente: Pixabay (https://pixabay.com/photos/fruit-juice)
+            */} 
+            {menu.menu_id === 6 && <img src="/img/jugos.png" alt="Jugos naturales - Fuente: Pixabay" className="menu-image" />}
+
+            {/* Imagen: Batidos 
+            Fuente: Unsplash (https://unsplash.com/photos/smoothies)
+            */}
+            {menu.menu_id === 7 && <img src="/img/batidos.jpg" alt="Batidos - Fuente: Unsplash" className="menu-image" />}
+
+            {/* Imagen: Combos 
+            Fuente: Pixabay (https://pixabay.com/photos/food-combo)
+            */}
+            {menu.menu_id === 8 && <img src="/img/combos.jpg" alt="Combos - Fuente: Pixabay" className="menu-image" />}
+
+            {/* Imagen: Extras o acompañamientos 
+            Fuente: Pixabay (https://pixabay.com/photos/extras-food)
+            */}
+            {menu.menu_id === 9 && <img src="/img/extras.jpg" alt="Extras - Fuente: Pixabay" className="menu-image" />}
+
           </div>
         </div>
 
