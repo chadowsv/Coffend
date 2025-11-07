@@ -3,6 +3,7 @@ import Home from "./pages/home";
 import Login from "./pages/login";
 import Menu from "./pages/menu";
 import Register from "./pages/register";
+import RegisterSuccess from "./pages/RegisterSuccess";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <Route path="/login" element={<Login />} />    {/* Página de inicio de sesión */}
         <Route path="/menu" element={<Menu />} />    {/* Página de menu*/}
         <Route path="/register" element={<Register />} /> {/* Página de registro */}
+        <Route path="/register/success" element={<RegisterSuccess />} /> {/* Página de registro exitoso */}
       </Routes>
     </Router>
   );

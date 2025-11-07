@@ -2,19 +2,26 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Button from "../components/Button";
-import "../styles/register.css"; 
+import "../styles/register.css";
 
 const Register = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [repeatPassword, setRepeatPassword] = useState("");
   const [phone, setPhone] = useState("");
-  const [role, setRole] = useState("cliente");
+  const [role] = useState("cliente");
+
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (password !== repeatPassword) {
+      alert("Las contraseñas no coinciden.");
+      return;
+    }
 
     try {
       const response = await fetch("http://localhost:8000/register", {
@@ -34,15 +41,10 @@ const Register = () => {
         throw new Error("Error al registrar usuario");
       }
 
-      const data = await response.json();
-
-      if (data) {
-        alert("Registro exitoso. Ahora puedes iniciar sesión.");
-        navigate("/login");
-      }
+      navigate("/register/success"); // ✅ nueva página
     } catch (error: any) {
       console.error("Error al registrarse:", error);
-      alert("No se pudo completar el registro. Verifica los datos e inténtalo nuevamente.");
+      alert("No se pudo completar el registro.");
     }
   };
 
@@ -51,9 +53,11 @@ const Register = () => {
       <Navbar />
       <div className="register_container">
         <h1 className="titulo_registro">Crear Cuenta</h1>
+
         <div className="form_container">
           <form onSubmit={handleSubmit} className="register-form">
-            <label htmlFor="firstName">Nombre</label>
+            
+            <label>Nombre</label>
             <input
               type="text"
               placeholder="Nombre"
@@ -62,7 +66,7 @@ const Register = () => {
               required
             />
 
-            <label htmlFor="lastName">Apellido</label>
+            <label>Apellido</label>
             <input
               type="text"
               placeholder="Apellido"
@@ -71,7 +75,7 @@ const Register = () => {
               required
             />
 
-            <label htmlFor="email">Correo</label>
+            <label>Correo</label>
             <input
               type="email"
               placeholder="example@example.com"
@@ -80,7 +84,7 @@ const Register = () => {
               required
             />
 
-            <label htmlFor="phone">Teléfono</label>
+            <label>Teléfono</label>
             <input
               type="tel"
               placeholder="0991234567"
@@ -90,7 +94,7 @@ const Register = () => {
               pattern="[0-9]{10}"
             />
 
-            <label htmlFor="password">Contraseña</label>
+            <label>Contraseña</label>
             <input
               type="password"
               placeholder="*********"
@@ -99,10 +103,22 @@ const Register = () => {
               required
             />
 
-            <label htmlFor="role">Rol</label>
-            <select value={role} onChange={(e) => setRole(e.target.value)}>
+            <label>Repetir contraseña</label>
+            <input
+              type="password"
+              placeholder="*********"
+              value={repeatPassword}
+              onChange={(e) => setRepeatPassword(e.target.value)}
+              required
+            />
+
+            <label>Rol</label>
+            <select 
+              value={role}
+              onChange={() => {}}
+              className="select-disabled"
+            >
               <option value="cliente">Cliente</option>
-              <option value="admin">Administrador</option>
             </select>
 
             <Button type="submit" text="Registrarse" />
