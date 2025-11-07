@@ -2,25 +2,28 @@
     display: flex;
     flex-direction: column;
     margin: 20px auto;
-    height: 90vh;
-    width: 90%;
+    padding: 20px;
+    min-height: 90vh;
+    width: 95%;
+    max-width: 1000px;
     align-items: center;
-    justify-content: center;
     background-color: #f1f1f1;
     color: #2f2f2f;
-    border-radius: 50px;
+    border-radius: 30px;
     box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 .titulo_registro {
     font-family: "Alex Brush", cursive;
-    font-size: 110px;
+    font-size: 70px;
     color: #6da34d;
-    margin: 0 auto 20px;
+    margin-bottom: 20px;
+    text-align: center;
+    overflow-wrap: break-word;
 }
 
 .form_container {
-    width: 60%;
+    width: 100%;
     display: flex;
     justify-content: center;
 }
@@ -28,7 +31,8 @@
 .register-form {
     display: flex;
     flex-direction: column;
-    width: 80%;
+    width: 90%;
+    max-width: 600px;
     gap: 15px;
     font-size: 18px;
 }
@@ -39,11 +43,14 @@
 
 .register-form input,
 .register-form select {
-    padding: 10px;
+    padding: 12px;
     border-radius: 10px;
     border: 1px solid #ccc;
     outline: none;
-    transition: 0.2s ease-in-out;
+    font-size: 16px;
+    width: 100%;
+    box-sizing: border-box;
+    transition: 0.2s;
 }
 
 .register-form input:focus,
@@ -55,4 +62,63 @@
 button {
     margin-top: 20px;
     align-self: center;
+}
+
+
+.select-disabled {
+    pointer-events: none;
+    background-color: #e6e6e6;
+    color: #555;
+    border-color: #ccc;
+    cursor: not-allowed;
+}
+
+.success_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+}
+
+.success_box {
+    background: #ffffff;
+    padding: 40px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    width: 90%;
+    max-width: 500px;
+}
+
+.success_box h1 {
+    color: #6da34d;
+    font-size: 40px;
+    margin-bottom: 10px;
+}
+
+.success_btn {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background: #6da34d;
+    color: white;
+    border-radius: 10px;
+    text-decoration: none;
+    font-size: 18px;
+    transition: 0.2s;
+}
+
+.success_btn:hover {
+    background: #5a8c40;
+}
+
+@media (max-width: 768px) {
+    .titulo_registro {
+        font-size: 50px;
+    }
+
+    .register-form {
+        width: 100%;
+        font-size: 16px;
+    }
 }
