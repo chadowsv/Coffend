@@ -6,7 +6,6 @@ export default function Navbar() {
         <a href="/menu">Menú</a>
         <a href="/login">Login</a>
         <a href="/Register">Registrarse</a>
-        <a href="/menu">Menú</a>
       </div>
     </nav>
   );

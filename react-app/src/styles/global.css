@@ -1,7 +1,107 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+/* Variables y escala */
+:root {
+  --bg: #f7f7f8;
+  --card-bg: #fff;
+  --muted: #6b6b6b;
+  --accent: #005b3d;
+  --radius: 12px;
+  --max-width: 1200px;
+  --gap: 1rem;
+  --container-padding: 1rem;
+}
+
+/* Reset y base */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body, #root { height: 100%; }
+body {
+  font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+  background: var(--bg);
+  color: #111;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.4;
+  font-size: clamp(14px, 1.3vw, 16px); /* escala fluida */
+}
+
+/* Tipografía escalable */
+h1 { font-size: clamp(1.4rem, 2.8vw, 2.4rem); line-height: 1.1; }
+h2 { font-size: clamp(1.2rem, 2.2vw, 1.6rem); }
+h3 { font-size: clamp(1.05rem, 1.6vw, 1.15rem); }
+p, label, span { font-size: 1rem; }
+
+/* Contenedor y utilidades */
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: var(--container-padding);
+}
+.row { display: flex; gap: var(--gap); flex-wrap: wrap; align-items: stretch; }
+.col { flex: 1 1 0; min-width: 0; }
+.center { display: flex; align-items: center; justify-content: center; }
+.stack { display: flex; flex-direction: column; gap: var(--gap); }
+
+/* Grid util */
+.grid { display: grid; gap: var(--gap); grid-auto-rows: auto; }
+.grid-2 { grid-template-columns: 1fr; }
+.grid-3 { grid-template-columns: 1fr; }
+
+/* Card genérico (Card.tsx debe aplicar clase .card) */
+.card {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  box-shadow: 0 6px 20px rgba(20,20,50,0.06);
+  padding: clamp(0.8rem, 1.6vw, 1.25rem);
+  width: 100%;
+  display: block;
+  min-height: auto; /* que el div crezca con el contenido */
+  overflow: visible;
+}
+
+/* Inputs y botones */
+.input, input, textarea, select {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 8px;
+  border: 1px solid #e6e6ee;
+  background: transparent;
+  font-size: 0.95rem;
+}
+.btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: 0.65rem 0.9rem; border-radius: 8px; border: none;
+  background: var(--accent); color: #fff; cursor: pointer; font-weight: 600;
+}
+
+/* Imágenes y multimedia */
+img, picture, video {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+}
+
+/* Evitar overflow de texto y adaptar cajas al contenido */
+* { word-break: break-word; overflow-wrap: anywhere; -webkit-font-smoothing: antialiased; }
+.card * { hyphens: auto; }
+
+/* Pequeñas utilidades de texto */
+.text-muted { color: var(--muted); font-size: 0.95rem; }
+.text-sm { font-size: clamp(0.8rem, 1.1vw, 0.95rem); }
+.text-lg { font-size: clamp(1rem, 1.8vw, 1.15rem); }
+
+/* Breakpoints: convertir grid a columnas en pantallas grandes */
+@media (min-width: 640px) {
+  .grid-2 { grid-template-columns: repeat(2, 1fr); }
+  .container { padding: calc(var(--container-padding) * 1.1); }
+}
+@media (min-width: 900px) {
+  .grid-3 { grid-template-columns: repeat(3, 1fr); }
+  .container { padding: calc(var(--container-padding) * 1.25); }
+}
+@media (max-width: 639px) {
+  .card { padding: 0.85rem; border-radius: 10px; }
+  .container { padding: 0.6rem; }
 }
 
 body {

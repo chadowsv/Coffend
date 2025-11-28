@@ -12,8 +12,94 @@
 }
 
 .titulo_inicio_sesion{
-    font-family: "Alex Brush";
+    
     font-size: 120px;
-    color: #90bb47;
+    
     margin: 0 auto;
+}
+
+/* Contenedor principal del login */
+.login-wrap {
+  max-width: 900px;
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.login-title {
+  font-size: clamp(2rem, 4vw, 8rem);
+  font-family: "Alex Brush";
+  color: #90bb47;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: clamp(0.5rem, 1vw, 1rem);
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.75rem, 1.5vw, 1rem);
+  width: 100%;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.form-group label {
+  font-size: clamp(0.95rem, 1.2vw, 1.05rem);
+  font-weight: 600;
+  color: #333;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+.form-group input {
+  width: 100%;
+  padding: clamp(0.65rem, 1.2vw, 0.9rem);
+  border-radius: 8px;
+  border: 1px solid #e6e6ee;
+  background: transparent;
+  font-size: clamp(0.95rem, 1.1vw, 1rem);
+  outline: none;
+  transition: border-color 0.3s ease;
+  box-sizing: border-box;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+.form-group input:focus {
+  border-color: var(--accent);
+}
+
+.form-group input::placeholder {
+  color: #999;
+}
+
+.login-form .btn {
+  width: 100%;
+  padding: clamp(0.7rem, 1.3vw, 0.9rem);
+  font-size: clamp(0.95rem, 1.1vw, 1rem);
+  margin-top: clamp(0.5rem, 1vw, 0.75rem);
+  box-sizing: border-box;
+}
+
+@media (max-width: 639px) {
+  .login-wrap {
+    max-width: 100%;
+    padding: 0;
+  }
+  .login-title {
+    margin-bottom: 0.5rem;
+  }
+  .form-group {
+    gap: 0.4rem;
+  }
 }

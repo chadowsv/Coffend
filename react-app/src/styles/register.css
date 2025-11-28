@@ -28,12 +28,19 @@
     justify-content: center;
 }
 
+.register-wrap {
+  max-width: 720px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 0.5rem;
+}
+
 .register-form {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    gap: 0.8rem;
+    grid-template-columns: 1fr;
     width: 90%;
     max-width: 600px;
-    gap: 15px;
     font-size: 18px;
 }
 
@@ -112,6 +119,12 @@ button {
     background: #5a8c40;
 }
 
+/* Etiquetas y ayuda */
+.register-help { font-size: 0.95rem; color: var(--muted); }
+
+/* Evitar overflow: cajas se adaptan al contenido */
+.register-wrap * { word-break: break-word; overflow-wrap: anywhere; }
+
 @media (max-width: 768px) {
     .titulo_registro {
         font-size: 50px;
@@ -122,3 +135,5 @@ button {
         font-size: 16px;
     }
 }
+
+@media (min-width: 700px) { .register-form { grid-template-columns: 1fr 1fr; } }

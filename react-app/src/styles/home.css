@@ -26,10 +26,13 @@
 }
 
 .imagen_cocineros {
-    width: 900px;
-    height: auto;
-    margin: 0 auto;
-    border-radius: 10px;
+  width: 100%;
+  max-width: 600px;
+  height: auto;
+  border-radius: var(--radius);
+  object-fit: cover;
+  display: block;
+  margin: 0 auto;
 }
 
 .footer {
@@ -37,3 +40,150 @@
     color: #ffffff;
     padding: 15px;
 }
+
+/* Secciones responsivas que se adaptan al contenido */
+.sections-home {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  box-shadow: 0 6px 20px rgba(20, 20, 50, 0.06);
+  padding: clamp(1.25rem, 2.5vw, 2rem);
+  width: 100%;
+  display: block;
+  min-height: auto;
+  overflow: visible;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  margin: clamp(1rem, 2vw, 1.5rem) 0;
+}
+
+/* Títulos de sección */
+.section_title {
+  font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+  font-weight: 700;
+  margin-bottom: clamp(0.75rem, 1.5vw, 1.25rem);
+  color: #111;
+}
+
+/* Texto de sección: que se adapte sin desbordarse */
+.section_text {
+  font-size: clamp(1rem, 1.3vw, 1.1rem);
+  color: #333;
+  line-height: 1.8;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  hyphens: auto;
+}
+
+.section_text a {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.section_text a:hover {
+  text-decoration: underline;
+}
+
+/* Imagen del héroe: mucho más grande */
+.home-hero {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: clamp(1.5rem, 3vw, 2rem) 0;
+  padding: clamp(1rem, 2vw, 1.5rem);
+}
+
+.imagen_cocineros {
+  width: 100%;
+  max-width: 1100px;
+  height: auto;
+  border-radius: var(--radius);
+  object-fit: cover;
+  display: block;
+}
+
+/* Contenedor de dos secciones lado a lado en pantallas grandes */
+.sections-union {
+  display: grid;
+  gap: clamp(1.25rem, 2vw, 1.75rem);
+  grid-template-columns: 1fr;
+  width: 100%;
+  margin: clamp(1.5rem, 3vw, 2rem) 0;
+}
+
+@media (min-width: 640px) {
+  .sections-union {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Footer */
+.footer {
+  background: #222;
+  color: #fff;
+  text-align: center;
+  padding: clamp(1.5rem, 2.5vw, 2rem);
+  border-radius: var(--radius);
+  margin-top: clamp(2rem, 3vw, 2.5rem);
+}
+
+.footer_text {
+  font-size: clamp(0.9rem, 1.1vw, 1rem);
+  margin: 0;
+}
+
+/* Asegurar que nada se sale del contenedor - ANCHO AUMENTADO */
+.container {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: clamp(0.75rem, 2vw, 1.5rem);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1rem, 1.5vw, 1.25rem);
+}
+
+/* Responsive en móviles */
+@media (max-width: 639px) {
+  .sections-home {
+    padding: 1.25rem;
+  }
+  .section_title {
+    margin-bottom: 0.75rem;
+  }
+  .footer {
+    padding: 1.5rem;
+  }
+  .imagen_cocineros {
+    max-width: 100%;
+  }
+}
+
+/* Estructura principal del hero: usar utilidades globales */
+.home-hero {
+  display: flex;
+  gap: 1.25rem;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+/* Columnas internas */
+.home-hero .hero-content { flex: 1 1 480px; min-width: 220px; }
+.home-hero .hero-image { flex: 1 1 320px; display: flex; justify-content: center; align-items: center; }
+
+/* Imagen responsive dentro del hero */
+.home-hero img { width: 100%; max-width: 520px; height: auto; border-radius: 10px; }
+
+/* Ajustes móviles */
+@media (max-width: 900px) {
+  .home-hero { flex-direction: column; text-align: center; gap: 0.9rem; }
+  .home-hero .hero-content, .home-hero .hero-image { width: 100%; }
+  .home-hero img { max-width: 360px; }
+}
+
+/* Cards y tarjetas de la sección */
+.home-cards { margin-top: 1rem; display: grid; gap: 1rem; grid-template-columns: 1fr; }
+@media (min-width: 640px) { .home-cards { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 900px) { .home-cards { grid-template-columns: repeat(3, 1fr); } }
