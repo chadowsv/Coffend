@@ -60,22 +60,21 @@ const Menus: React.FC = () => {
                 )}
               </div>
 
-              {/* Imagen */}
-              <div className="menu-header">
-                {menu.menu_id === 1 && <img src="/img/bolones.jpg" alt="Bolones" className="menu-image" />}
-                {menu.menu_id === 2 && <img src="/img/tigrillos.jpg" alt="Tigrillos" className="menu-image" />}
-                {menu.menu_id === 3 && <img src="/img/empanadas.jpg" alt="Empanadas" className="menu-image" />}
-                {menu.menu_id === 4 && <img src="/img/canoademaduro.jpg" alt="Especialidades" className="menu-image" />}
-                {menu.menu_id === 5 && <img src="/img/bebidascalientes.jpg" alt="Bebidas" className="menu-image" />}
-                {menu.menu_id === 6 && <img src="/img/jugos.png" alt="Jugos" className="menu-image" />}
-                {menu.menu_id === 7 && <img src="/img/batidos.jpg" alt="Batidos" className="menu-image" />}
-                {menu.menu_id === 8 && <img src="/img/combos.jpg" alt="Combos" className="menu-image" />}
-                {menu.menu_id === 9 && <img src="/img/extras.jpg" alt="Extras" className="menu-image" />}
-              </div>
-            </Card>
-          ))}
-        </section>
-      </div>
+          {/* Imagen */}
+          <div className="menu-header">
+            {menu.menu_id === 1 && <img src="/img/bolones.jpg" alt="Bolones" className="menu-image" />}
+            {menu.menu_id === 2 && <img src="/img/tigrillos.jpg" alt="Tigrillos" className="menu-image" />}
+            {menu.menu_id === 3 && <img src="/img/empanadas.jpg" alt="Empanadas" className="menu-image" />}
+            {menu.menu_id === 4 && <img src="/img/canoademaduro.jpg" alt="Especialidades" className="menu-image" />}
+            {menu.menu_id === 5 && <img src="/img/bebidascalientes.jpg" alt="Bebidas" className="menu-image" />}
+            {menu.menu_id === 6 && <img src="/img/jugos.png" alt="Jugos" className="menu-image" />}
+            {menu.menu_id === 7 && <img src="/img/batidos.jpg" alt="Batidos" className="menu-image" />}
+            {menu.menu_id === 8 && <img src="/img/combos.jpg" alt="Combos" className="menu-image" />}
+            {menu.menu_id === 9 && <img src="/img/extras.jpg" alt="Extras" className="menu-image" />}
+          </div>
+        </div>
+
+      ))}
     </div>
   );
 };
