@@ -1,7 +1,5 @@
 import React from "react";
 import Navbar from "../components/Navbar";
-import Button from "../components/Button"
-import Card from '../components/Card';
 import "../styles/global.css";
 import "../styles/home.css"
 
