@@ -22,16 +22,18 @@ h1 {
 }
 
 .menu ul {
-    list-style-type: none;
+    list-style: none;
     padding: 0;
     margin-left: 15px;
 }
 
 .menu li {
+    list-style: none;
     padding: 8px 0;
 }
 
 .menu li:last-child {
+    list-style: none;
     border-bottom: none;
 }
 
@@ -65,3 +67,9 @@ h1 {
 /* Texto del item que puede crecer: hacer que el contenedor crezca con el texto */
 .menu-item .title { font-weight: 700; font-size: clamp(1rem, 1.8vw, 1.15rem); }
 .menu-item .desc { color: var(--muted); font-size: clamp(0.9rem, 1.1vw, 1rem); }
+.menu-content ul,
+.menu-content li {
+  list-style: none !important;
+  margin: 0 3px 0 2px;
+  padding: 0;
+}
