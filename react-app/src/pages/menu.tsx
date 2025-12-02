@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import { Menu } from "../interfaces/Menu";
 import Navbar from "../components/Navbar";
 import Card from '../components/Card';
+import { isAdmin } from "../auth";
 import "../styles/global.css";
 import "../styles/menu.css";
 
@@ -30,6 +31,9 @@ const Menus: React.FC = () => {
     <div>
       <Navbar />
       <h1>Menú</h1>
+      {isAdmin() && (
+        <button className="admin_button">Agregar nuevo menú</button>
+      )}
       <div className="container">
         <section className="menu-grid">
           {menus.map((menu) => (
