@@ -112,24 +112,35 @@ body {
 }
 
 .navbar {
-  background-color: #008f31;
+  background-color: #008f31; /* Verde que ya tienes */
   padding: 10px 20px;
   height: 75px;
   display: flex;
   align-items: center;
   justify-content: right;
+  border-bottom: 3px solid white; /* Borde blanco */
 }
 
 .navbar a {
-    color: white;
-    font-size: clamp(14px, 2vw, 30px);
-    margin-right: 20px;
-    text-decoration: none;
+  color: #5c3d2e; /* Café */
+  font-weight: 700;
+  font-size: clamp(14px, 2vw, 30px);
+  margin-right: 30px;
+  text-decoration: none;
+
+  /* Borde blanco en el texto */
+  text-shadow:
+    -1px -1px 0 white,
+     1px -1px 0 white,
+    -1px  1px 0 white,
+     1px  1px 0 white;
 }
 
-.navbar a:hover {
-    color: #2f2f2f;
+.navbar a:hover,
+.navbar a.active { /* active = página actual */
+  font-weight: 1000;
 }
+
 
 
 h1 {

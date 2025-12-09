@@ -1,0 +1,50 @@
+.sucursal-card {
+  background-color: #ffffffcc;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+}
+
+.sucursal-content {
+  display: flex;
+  gap: 20px;
+  align-items: stretch;
+}
+
+.sucursal-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.sucursal-info h2 {
+   font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+  margin-bottom: 10px;
+}
+
+.sucursal-info p {
+  margin: 4px 0;
+  font-size: 15px;
+  color: #444;
+}
+
+.sucursal-map {
+  flex: 2;
+  height: 350px;
+  border: 0;
+  border-radius: 10px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .sucursal-content {
+    flex-direction: column;
+  }
+
+  .sucursal-map {
+    height: 250px;
+  }
+}
+
