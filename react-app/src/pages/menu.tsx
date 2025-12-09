@@ -6,7 +6,7 @@ import React, { useEffect, useState } from "react";
 import { Menu } from "../interfaces/Menu";
 import Navbar from "../components/Navbar";
 import Card from "../components/Card";
-import { isAdmin } from "../auth";
+import { isAdmin , getToken } from "../auth";
 import "../styles/global.css";
 import "../styles/menu.css";
 
@@ -35,11 +35,12 @@ const Menus: React.FC = () => {
   // Crear menú (POST)
   const handleCreateMenu = async (e: React.FormEvent) => {
     e.preventDefault();
-
+    const token = getToken();
     const res = await fetch("http://localhost:8000/menus", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      credentials: "include",
+      headers: { "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
+       },
       body: JSON.stringify(newMenu),
     });
 
@@ -55,14 +56,12 @@ const Menus: React.FC = () => {
       <Navbar />
       <h1>Menú</h1>
 
-      {/* Botón solo para admin */}
       {isAdmin() && (
         <button className="admin_button" onClick={() => setShowMenuModal(true)}>
           Agregar nuevo menú
         </button>
       )}
 
-      {/* 📌 MODAL */}
       {showMenuModal && (
         <div className="modal-overlay">
           <div className="modal">
