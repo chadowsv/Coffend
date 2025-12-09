@@ -1,10 +1,8 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
-import Button from "../components/Button";
-import Card from "../components/Card";
-import "../styles/global.css";
-import "../styles/login.css";
+import Button from "../components/Button"
+import "../styles/login.css"
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -30,10 +28,12 @@ const Login = () => {
       if (data.token) {
         localStorage.setItem("token", data.token);
         localStorage.setItem("user", JSON.stringify(data.user));
+        localStorage.setItem("role", data.user.role);
         navigate("/menu");
       } else {
         throw new Error("No se recibió el token JWT del servidor");
       }
+
     } catch (error: any) {
       console.error("Error al iniciar sesión:", error);
     }
@@ -42,38 +42,28 @@ const Login = () => {
   return (
     <div>
       <Navbar />
-      <div className="container">
-        <div className="login-wrap">
-          <Card className="stack">
-            <h1 className="login-title">Inicio de Sesión</h1>
-            <form onSubmit={handleSubmit} className="login-form">
-              <div className="form-group">
-                <label htmlFor="email">Correo</label>
-                <input
-                  type="email"
-                  id="email"
-                  placeholder="example@example.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                  className="input"
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="password">Contraseña</label>
-                <input
-                  type="password"
-                  id="password"
-                  placeholder="*********"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                  className="input"
-                />
-              </div>
-              <Button type="submit" text="Ingresar" />
-            </form>
-          </Card>
+      <div className="login_container">
+        <h1 className="titulo_inicio_sesion">Inicio de Sesión</h1>
+        <div className="form_container">
+          <form onSubmit={handleSubmit} className="login-form">
+            <label htmlFor="email">Correo</label>
+            <input
+              type="email"
+              placeholder="example@example.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              />
+            <label htmlFor="password">Contraseña</label>
+            <input
+              type="password"
+              placeholder="*********"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              />
+              <Button type="submit" text="Ingresar"/>
+          </form>
         </div>
       </div>
     </div>

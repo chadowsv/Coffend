@@ -66,7 +66,7 @@ func PostMenu() gin.HandlerFunc {
 
 		menu := models.Menu{
 			Name:       newMenu.Name,
-			MenuStatus: newMenu.MenuStatus,
+			MenuStatus: true,
 			CreatedAt:  time.Now(),
 			UpdatedAt:  time.Now(),
 		}
