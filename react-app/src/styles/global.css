@@ -20,7 +20,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.4;
-  font-size: clamp(14px, 1.3vw, 16px); /* escala fluida */
+  font-size: clamp(14px, 1.3vw, 16px);
 }
 
 /* Tipografía escalable */
@@ -46,7 +46,7 @@ p, label, span { font-size: 1rem; }
 .grid-2 { grid-template-columns: 1fr; }
 .grid-3 { grid-template-columns: 1fr; }
 
-/* Card genérico (Card.tsx debe aplicar clase .card) */
+/* Card */
 .card {
   background: var(--card-bg);
   border-radius: var(--radius);
@@ -54,7 +54,7 @@ p, label, span { font-size: 1rem; }
   padding: clamp(0.8rem, 1.6vw, 1.25rem);
   width: 100%;
   display: block;
-  min-height: auto; /* que el div crezca con el contenido */
+  min-height: auto;
   overflow: visible;
 }
 
@@ -73,7 +73,7 @@ p, label, span { font-size: 1rem; }
   background: var(--accent); color: #fff; cursor: pointer; font-weight: 600;
 }
 
-/* Imágenes y multimedia */
+/* Imágenes */
 img, picture, video {
   max-width: 100%;
   height: auto;
@@ -81,16 +81,16 @@ img, picture, video {
   object-fit: cover;
 }
 
-/* Evitar overflow de texto y adaptar cajas al contenido */
+/* Overflow */
 * { word-break: break-word; overflow-wrap: anywhere; -webkit-font-smoothing: antialiased; }
 .card * { hyphens: auto; }
 
-/* Pequeñas utilidades de texto */
+/* Texto utilidades */
 .text-muted { color: var(--muted); font-size: 0.95rem; }
 .text-sm { font-size: clamp(0.8rem, 1.1vw, 0.95rem); }
 .text-lg { font-size: clamp(1rem, 1.8vw, 1.15rem); }
 
-/* Breakpoints: convertir grid a columnas en pantallas grandes */
+/* Breakpoints */
 @media (min-width: 640px) {
   .grid-2 { grid-template-columns: repeat(2, 1fr); }
   .container { padding: calc(var(--container-padding) * 1.1); }
@@ -105,30 +105,34 @@ img, picture, video {
 }
 
 body {
-    background-image: url('../../public/img/background.webp');
-    background-position: center;
-    font-family: Montserrat;
-    min-height: 100vh;
+  background-image: url('../../public/img/background.webp');
+  background-position: center;
+  font-family: Montserrat;
+  min-height: 100vh;
 }
 
+/* NAVBAR con imagen */
 .navbar {
-  background-color: #008f31; /* Verde que ya tienes */
+  background-color: #008f31;
+  background-image: url('../../public/img/nav-platanos.webp');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-blend-mode: overlay;
   padding: 10px 20px;
   height: 75px;
   display: flex;
   align-items: center;
   justify-content: right;
-  border-bottom: 3px solid white; /* Borde blanco */
+  border-bottom: 3px solid white;
 }
 
 .navbar a {
-  color: #5c3d2e; /* Café */
+  color: #5c3d2e;
   font-weight: 700;
   font-size: clamp(14px, 2vw, 30px);
   margin-right: 30px;
   text-decoration: none;
-
-  /* Borde blanco en el texto */
   text-shadow:
     -1px -1px 0 white,
      1px -1px 0 white,
@@ -137,54 +141,52 @@ body {
 }
 
 .navbar a:hover,
-.navbar a.active { /* active = página actual */
+.navbar a.active {
   font-weight: 1000;
 }
 
-
-
 h1 {
-    font-size: clamp(24px, 5vw, 40px);
+  font-size: clamp(24px, 5vw, 40px);
 }
 
 h2 {
-    font-family: "Alex brush";
-    color: #008f31;
-    font-size: clamp(20px, 3vw, 35px);
+  font-family: "Alex brush";
+  color: #008f31;
+  font-size: clamp(20px, 3vw, 35px);
 }
 
 form {
-    display: flex;
-    flex-direction: column;
-    align-content: center;
-    width: 500px;           
-    margin: 0 auto;          
-    padding: 20px;
-    gap: 10px;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  width: 500px;
+  margin: 0 auto;
+  padding: 20px;
+  gap: 10px;
 }
 
 label {
-    font-size: clamp(20px, 5vw, 40px);
+  font-size: clamp(20px, 5vw, 40px);
 }
 
 input {
-    border-radius: 5px;
-    border: solid 2px;
-    border-color:#008f31;
-    background-color: #ffffff;
-    padding: 10px;
+  border-radius: 5px;
+  border: solid 2px;
+  border-color:#008f31;
+  background-color: #ffffff;
+  padding: 10px;
 }
 
 button {
-    border-radius: 5px;
-    border: none;
-    padding: 10px;
-    background-color: #008f31;
-    color: #ffffff;
+  border-radius: 5px;
+  border: none;
+  padding: 10px;
+  background-color: #008f31;
+  color: #ffffff;
 }
 
 button:hover {
-    background-color: #90bb47;
-    color: #2f2f2f;
-    font-weight: bold;
+  background-color: #90bb47;
+  color: #2f2f2f;
+  font-weight: bold;
 }
