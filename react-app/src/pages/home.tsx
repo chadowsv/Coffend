@@ -15,6 +15,7 @@ const Home: React.FC = () => {
             Comenzamos con una pequeña esquina donde la gente podía disfrutar de platos frescos y llenos de sabor, elaborados con ingredientes locales y recetas heredadas de nuestras familias. 
             Hoy, seguimos manteniendo esa esencia y orgullo de nuestras raíces, ofreciendo un espacio acogedor donde cada plato cuenta una historia.
           </p>
+          
         </section>
 
         <img src="/img/cocina.jpg" alt="imagen_de_los_cocineros" className="imagen_cocineros" />

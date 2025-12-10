@@ -1,0 +1,161 @@
+.mesas-container {
+  padding: 20px;
+  text-align: center;
+  color: white;
+}
+
+.title {
+  font-size: 32px;
+  margin-bottom: 25px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+.mesa-card {
+  background-color: #fdfdfd;
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+  width: 100%;
+  transition: transform .2s;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+  cursor: pointer; /* indica que se puede hacer click */
+}
+
+.mesa-card:hover {
+  transform: scale(1.03);
+}
+
+.mesa-card h3,
+.mesa-card p strong {
+  color: black;
+}
+
+.cap-num {
+  color: #55556a;
+  font-weight: 700;
+}
+
+.mesa-vista {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 15px 0;
+  gap: 10px;
+}
+
+.mesa-middle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+}
+
+.table {
+  width: 90px;
+  height: 55px;
+  border-radius: 10px;
+  background-color: #8b5e3c;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+  transition: background-color 0.3s;
+}
+
+.chair {
+  width: 45px;
+  height: 50px;
+  background: #55556a;
+  border-radius: 6px;
+  position: relative;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.4);
+  transition: transform .2s, background-color 0.3s;
+}
+
+.chair::before {
+  content: "";
+  width: 45px;
+  height: 14px;
+  background: #2f2f3d;
+  position: absolute;
+  top: -10px;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.chair:hover {
+  transform: scale(1.12);
+  background-color: #6e6ef0;
+}
+
+.chair-top {
+  margin-bottom: 5px;
+}
+
+.chair-bottom {
+  margin-top: 5px;
+}
+
+.chair-left::before,
+.chair-right::before {
+  top: 50%;
+  left: -10px;
+  transform: translateY(-50%);
+  width: 14px;
+  height: 45px;
+}
+
+.chair-top::before {
+  left: auto;
+  right: 0px;
+}
+
+.chair-right::before {
+  left: auto;
+  right: -10px;
+}
+
+.chair-bottom::before {
+  left: auto;
+  right: 0px;
+  margin-top: 55px;
+}
+
+.estado-ocupado {
+  color: rgb(255, 82, 82);
+  font-weight: bold;
+}
+
+.estado-libre {
+  color: rgb(97, 219, 97);
+  font-weight: bold;
+}
+
+/* Cambios de color dinámicos según estado de la mesa */
+.mesa-card.ocupada .table {
+  background-color: rgb(204, 71, 71);
+}
+
+.mesa-card.libre .table {
+  background-color: rgb(103, 201, 103);
+}
+
+/* Las sillas también cambian de color según estado */
+.mesa-card.ocupada .chair {
+  background-color: rgb(204, 71, 71);
+}
+
+.mesa-card.ocupada .chair::before {
+  background-color: rgb(150, 50, 50);
+}
+
+.mesa-card.libre .chair {
+  background-color: #55556a;
+}
+
+.mesa-card.libre .chair::before {
+  background-color: #2f2f3d;
+}

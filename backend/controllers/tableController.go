@@ -4,7 +4,6 @@ import (
 	"coffend/backend/database"
 	"coffend/backend/models"
 	"context"
-	"net/http"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -55,11 +54,6 @@ func PostTable() gin.HandlerFunc {
 			return
 		}
 
-		if validationErr := validate.Struct(newTable); validationErr != nil {
-			c.JSON(400, gin.H{"error": validationErr.Error()})
-			return
-		}
-
 		table := models.Table{
 			NumberGuests: newTable.NumberGuests,
 			Status:       newTable.Status,
@@ -72,7 +66,7 @@ func PostTable() gin.HandlerFunc {
 			return
 		}
 
-		c.JSON(http.StatusCreated, table)
+		c.JSON(201, table)
 	}
 }
 
@@ -82,16 +76,11 @@ func PatchTableByID() gin.HandlerFunc {
 		defer cancel()
 
 		tableID := c.Param("table_id")
-		var inputTable models.Table
+		var input models.Table
 		var table models.Table
 
-		if err := c.BindJSON(&inputTable); err != nil {
+		if err := c.BindJSON(&input); err != nil {
 			c.JSON(400, gin.H{"error": err.Error()})
-			return
-		}
-
-		if validationErr := validate.Struct(inputTable); validationErr != nil {
-			c.JSON(400, gin.H{"error": validationErr.Error()})
 			return
 		}
 
@@ -101,24 +90,22 @@ func PatchTableByID() gin.HandlerFunc {
 		}
 
 		updates := map[string]interface{}{
-			"number_guests": table.NumberGuests,
-			"status":        table.Status,
-			"updated_at":    time.Now(),
+			"updated_at": time.Now(),
 		}
+
+		// Actualiza solo si viene del frontend
+		if input.NumberGuests != 0 {
+			updates["number_guests"] = input.NumberGuests
+		}
+
+		updates["status"] = input.Status
 
 		if err := database.DB.WithContext(ctx).Model(&table).Updates(updates).Error; err != nil {
 			c.JSON(500, gin.H{"error": "Failed to update table"})
 			return
 		}
 
-		c.JSON(200, gin.H{
-			"message":  "Table updated successfully",
-			"table_id": tableID,
-			"changes": gin.H{
-				"number_guests": table.NumberGuests,
-				"status":        table.Status,
-			},
-		})
+		c.JSON(200, table)
 	}
 }
 

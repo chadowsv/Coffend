@@ -13,7 +13,7 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
   const [phone, setPhone] = useState("");
-  const [role] = useState("cliente");
+  const [role] = useState("admin");
 
   const navigate = useNavigate();
 
@@ -120,7 +120,7 @@ const Register = () => {
               onChange={() => {}}
               className="select-disabled"
             >
-              <option value="cliente">Cliente</option>
+              <option value="Admin">Admin</option>
             </select>
 
             <Button type="submit" text="Registrarse" />
