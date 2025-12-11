@@ -1,7 +1,14 @@
 export default function Navbar() {
   return (
     <nav className="navbar">
-      <a href="/" className="navbar-logo">La Esquina del Verde</a>
+      {/* Imagen totalmente a la izquierda */}
+      <a href="/" className="navbar-logo-img">
+        <img src="/img/logo.webp" alt="logo" />
+      </a>
+
+      {/* Todo lo demás permanece igual */}
+      <a href="/" className="navbar-logo">La Esquina Del Verde</a>
+
       <div className="navbar-links">
         <a href="/menu">Menú</a>
         <a href="/sucursales">Sucursales</a>
@@ -12,3 +19,4 @@ export default function Navbar() {
     </nav>
   );
 }
+

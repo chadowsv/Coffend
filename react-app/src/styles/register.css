@@ -1,63 +1,71 @@
+/* ------------------------------ */
+/*         REGISTER STYLES        */
+/* ------------------------------ */
+
+/* Contenedor principal */
 .register_container {
     display: flex;
     flex-direction: column;
     margin: 20px auto;
     padding: 20px;
-    min-height: 90vh;
+    min-height: 70vh;
     width: 95%;
-    max-width: 1000px;
+    max-width: 900px;
     align-items: center;
+    justify-content: center;
     background-color: #f1f1f1;
     color: #2f2f2f;
     border-radius: 30px;
     box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
 }
 
+/* Título igual al login */
 .titulo_registro {
-    font-family: "Alex Brush", cursive;
-    font-size: 70px;
+    font-family: "Alex Brush", cursive !important;
+    font-size: clamp(2.5rem, 6vw, 5rem);
     color: #6da34d;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
     text-align: center;
     overflow-wrap: break-word;
+    font-style: italic;
 }
 
+/* Contenedor del formulario */
 .form_container {
     width: 100%;
     display: flex;
     justify-content: center;
 }
 
-.register-wrap {
-  max-width: 720px;
-  margin: 0 auto;
-  width: 100%;
-  padding: 0.5rem;
-}
-
+/* Formulario */
 .register-form {
     display: grid;
-    gap: 0.8rem;
+    gap: 1rem;
     grid-template-columns: 1fr;
     width: 90%;
     max-width: 600px;
     font-size: 18px;
 }
 
+/* Etiquetas */
 .register-form label {
     font-weight: 600;
+    font-size: clamp(1rem, 1.5vw, 1.1rem);
+    color: #333;
 }
 
+/* Inputs y selects */
 .register-form input,
 .register-form select {
-    padding: 12px;
+    padding: clamp(10px, 2vw, 14px);
     border-radius: 10px;
     border: 1px solid #ccc;
     outline: none;
-    font-size: 16px;
+    font-size: clamp(1rem, 1.5vw, 1.1rem);
     width: 100%;
     box-sizing: border-box;
     transition: 0.2s;
+    background: white;
 }
 
 .register-form input:focus,
@@ -66,12 +74,11 @@
     box-shadow: 0 0 5px rgba(109, 163, 77, 0.5);
 }
 
-button {
-    margin-top: 20px;
-    align-self: center;
+.register-form input::placeholder {
+    color: #777;
 }
 
-
+/* Select deshabilitado */
 .select-disabled {
     pointer-events: none;
     background-color: #e6e6e6;
@@ -80,54 +87,47 @@ button {
     cursor: not-allowed;
 }
 
-.success_container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 80vh;
-}
-
-.success_box {
-    background: #ffffff;
-    padding: 40px;
-    border-radius: 20px;
-    text-align: center;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    width: 90%;
-    max-width: 500px;
-}
-
-.success_box h1 {
-    color: #6da34d;
-    font-size: 40px;
-    margin-bottom: 10px;
-}
-
-.success_btn {
-    display: inline-block;
-    margin-top: 20px;
-    padding: 10px 20px;
-    background: #6da34d;
+/* Botón igual al login */
+.register-form button,
+.register-form .btn {
+    grid-column: 1 / -1;
+    width: 100%;
+    padding: clamp(12px, 2vw, 16px);
+    background-color: #6da34d;
     color: white;
-    border-radius: 10px;
-    text-decoration: none;
-    font-size: 18px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
     transition: 0.2s;
+    font-size: clamp(1rem, 1.5vw, 1.2rem);
+    font-weight: 600;
+    margin-top: 20px;
 }
 
-.success_btn:hover {
-    background: #5a8c40;
+.register-form button:hover,
+.register-form .btn:hover {
+    background-color: #5a8c40;
 }
 
-/* Etiquetas y ayuda */
-.register-help { font-size: 0.95rem; color: var(--muted); }
+/* ------------------------------ */
+/*        RESPONSIVE STYLES       */
+/* ------------------------------ */
 
-/* Evitar overflow: cajas se adaptan al contenido */
-.register-wrap * { word-break: break-word; overflow-wrap: anywhere; }
+@media (min-width: 700px) {
+    .register-form {
+        grid-template-columns: 1fr 1fr;
+    }
+}
 
+/* Ajustes para móvil */
 @media (max-width: 768px) {
+    .register_container {
+        padding: 15px;
+        width: 98%;
+    }
+
     .titulo_registro {
-        font-size: 50px;
+        font-size: clamp(2.2rem, 8vw, 3.5rem);
     }
 
     .register-form {
@@ -136,4 +136,18 @@ button {
     }
 }
 
-@media (min-width: 700px) { .register-form { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 480px) {
+    .register_container {
+        border-radius: 20px;
+    }
+
+    .titulo_registro {
+        font-size: clamp(2rem, 10vw, 3rem);
+    }
+}
+
+/* Evitar overflow del contenido */
+.register_container * {
+    word-break: break-word;
+    overflow-wrap: anywhere;
+}
