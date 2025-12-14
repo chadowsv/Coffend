@@ -6,6 +6,7 @@ import Register from "./pages/register";
 import RegisterSuccess from "./pages/RegisterSuccess";
 import Sucursales from "./pages/sucursales";
 import Mesas from "./pages/mesas";
+import Menu2 from "./pages/menu2";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/mesas" element={<Mesas />} /> 
         <Route path="/register" element={<Register />} /> {/* Página de registro */}
         <Route path="/register/success" element={<RegisterSuccess />} /> {/* Página de registro exitoso */}
+        <Route path="/menu2" element={<Menu2 />} /> 
       </Routes>
     </Router>
   );

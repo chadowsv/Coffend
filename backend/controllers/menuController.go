@@ -132,7 +132,7 @@ func DeleteMenuByID() gin.HandlerFunc {
 			return
 		}
 
-		if err := database.DB.WithContext(ctx).Delete(&menu, menuId).Error; err != nil {
+		if err := database.DB.WithContext(ctx).Delete(&menu).Error; err != nil {
 			c.JSON(500, gin.H{"error": "Failed to delete menu."})
 			return
 		}

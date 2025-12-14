@@ -58,6 +58,33 @@ p, label, span { font-size: 1rem; }
   overflow: visible;
 }
 
+.card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.card-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+}
+
+.card-description {
+  margin: 0;
+  font-size: 14px;
+  color: #666;
+  line-height: 1.4;
+}
+
+.card-price {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: #2db149;
+}
+
 /* Inputs y botones */
 .input, input, textarea, select {
   width: 100%;
