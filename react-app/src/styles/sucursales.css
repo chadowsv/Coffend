@@ -37,7 +37,6 @@
   border-radius: 10px;
 }
 
-/* RESPONSIVE */
 @media (max-width: 768px) {
   .sucursal-content {
     flex-direction: column;

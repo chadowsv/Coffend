@@ -7,7 +7,7 @@ type Order struct {
 	OrderDate time.Time `gorm:"not null" json:"order_date"`
 	CreatedAt time.Time `gorm:"not null" json:"created_at"`
 	UpdatedAt time.Time `gorm:"not null" json:"updated_at"`
-	TableID   *int      `json:"table_id"` // puede ser null
+	TableID   *int      `json:"table_id"`
 	Total     float64   `gorm:"type:money" json:"total"`
 
 	Table      *Table      `gorm:"foreignKey:TableID" json:"table,omitempty"`

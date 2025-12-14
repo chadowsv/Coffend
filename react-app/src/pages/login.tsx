@@ -1,16 +1,22 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
-import Button from "../components/Button"
-import "../styles/login.css"
+import Button from "../components/Button";
+import "../styles/login.css";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
+  const emailRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    emailRef.current?.setCustomValidity("");
+    passwordRef.current?.setCustomValidity("");
 
     try {
       const response = await fetch("http://localhost:8000/login", {
@@ -20,7 +26,16 @@ const Login = () => {
       });
 
       if (!response.ok) {
-        throw new Error("Credenciales incorrectas o error del servidor");
+        emailRef.current?.setCustomValidity(
+          "Correo o contraseña incorrectos"
+        );
+        passwordRef.current?.setCustomValidity(
+          "Correo o contraseña incorrectos"
+        );
+
+        emailRef.current?.reportValidity();
+        passwordRef.current?.reportValidity();
+        return;
       }
 
       const data = await response.json();
@@ -34,7 +49,7 @@ const Login = () => {
         throw new Error("No se recibió el token JWT del servidor");
       }
 
-    } catch (error: any) {
+    } catch (error) {
       console.error("Error al iniciar sesión:", error);
     }
   };
@@ -44,25 +59,37 @@ const Login = () => {
       <Navbar />
       <div className="login_container">
         <h1 className="titulo_inicio_sesion">Inicio de Sesión</h1>
+
         <div className="form_container">
           <form onSubmit={handleSubmit} className="login-form">
+
             <label htmlFor="email">Correo</label>
             <input
+              ref={emailRef}
               type="email"
               placeholder="example@example.com"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => {
+                setEmail(e.target.value);
+                emailRef.current?.setCustomValidity("");
+              }}
               required
-              />
+            />
+
             <label htmlFor="password">Contraseña</label>
             <input
+              ref={passwordRef}
               type="password"
               placeholder="*********"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => {
+                setPassword(e.target.value);
+                passwordRef.current?.setCustomValidity("");
+              }}
               required
-              />
-              <Button type="submit" text="Ingresar"/>
+            />
+
+            <Button type="submit" text="Ingresar" />
           </form>
         </div>
       </div>
@@ -71,3 +98,4 @@ const Login = () => {
 };
 
 export default Login;
+

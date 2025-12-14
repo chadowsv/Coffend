@@ -1,7 +1,3 @@
-//useState sirve para guardar datos dentro del componente
-//useEffect sirve para ejecutar algo cuando el componente se muestra en pantalla
-//menu es para las interfaces y decirle a ts como luce cada menu
-
 import React, { useEffect, useState } from "react";
 import { Menu } from "../interfaces/Menu";
 import Navbar from "../components/Navbar";
@@ -32,7 +28,6 @@ const Menus: React.FC = () => {
       );
   }, []);
 
-  // Crear menú (POST)
   const handleCreateMenu = async (e: React.FormEvent) => {
     e.preventDefault();
     const token = getToken();
@@ -94,13 +89,10 @@ const Menus: React.FC = () => {
           </div>
         </div>
       )}
-
-      {/* LISTADO */}
       <div className="container">
         <section className="menu-grid">
           {menus.map((menu) => (
             <Card key={menu.menu_id} className="menu-item">
-              {/* Contenido de texto */}
               <div className="menu-content">
                 <h2>{menu.name}</h2>
 
@@ -130,8 +122,7 @@ const Menus: React.FC = () => {
                     </ul>
                   )}
               </div>
-
-              {/* Imagen */}
+              
               <div className="menu-header">
                 {menu.menu_id === 1 && (
                   <img

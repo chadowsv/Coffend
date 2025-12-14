@@ -11,13 +11,13 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Home />} />          {/* Página principal */}
-        <Route path="/login" element={<Login />} />    {/* Página de inicio de sesión */}
-        <Route path="/menu" element={<Menu />} />    {/* Página de menu*/}
-        <Route path="/sucursales" element={<Sucursales />} /> {/* Página de sucursales */}
+        <Route path="/" element={<Home />} />        
+        <Route path="/login" element={<Login />} />    
+        <Route path="/menu" element={<Menu />} />    
+        <Route path="/sucursales" element={<Sucursales />} /> 
         <Route path="/mesas" element={<Mesas />} /> 
-        <Route path="/register" element={<Register />} /> {/* Página de registro */}
-        <Route path="/register/success" element={<RegisterSuccess />} /> {/* Página de registro exitoso */}
+        <Route path="/register" element={<Register />} /> 
+        <Route path="/register/success" element={<RegisterSuccess />} /> 
       </Routes>
     </Router>
   );

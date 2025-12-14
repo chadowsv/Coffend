@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Button from "../components/Button";
-import Card from "../components/Card";
 import "../styles/global.css";
 import "../styles/register.css";
 
@@ -13,17 +12,25 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
   const [phone, setPhone] = useState("");
-  const [role] = useState("admin");
+  const [role] = useState("cliente");
 
   const navigate = useNavigate();
 
+  const handleRepeatPassword = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const value = e.target.value;
+    setRepeatPassword(value);
+
+    if (value !== password) {
+      e.target.setCustomValidity("Las contraseñas no coinciden");
+    } else {
+      e.target.setCustomValidity("");
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    if (password !== repeatPassword) {
-      alert("Las contraseñas no coinciden.");
-      return;
-    }
 
     try {
       const response = await fetch("http://localhost:8000/register", {
@@ -43,10 +50,9 @@ const Register = () => {
         throw new Error("Error al registrar usuario");
       }
 
-      navigate("/register/success"); // ✅ nueva página
-    } catch (error: any) {
+      navigate("/register/success");
+    } catch (error) {
       console.error("Error al registrarse:", error);
-      alert("No se pudo completar el registro.");
     }
   };
 
@@ -58,7 +64,7 @@ const Register = () => {
 
         <div className="form_container">
           <form onSubmit={handleSubmit} className="register-form">
-            
+
             <label>Nombre</label>
             <input
               type="text"
@@ -110,17 +116,13 @@ const Register = () => {
               type="password"
               placeholder="*********"
               value={repeatPassword}
-              onChange={(e) => setRepeatPassword(e.target.value)}
+              onChange={handleRepeatPassword}
               required
             />
 
             <label>Rol</label>
-            <select 
-              value={role}
-              onChange={() => {}}
-              className="select-disabled"
-            >
-              <option value="Admin">Admin</option>
+            <select value={role} disabled className="select-disabled">
+              <option value="cliente">Cliente</option>
             </select>
 
             <Button type="submit" text="Registrarse" />

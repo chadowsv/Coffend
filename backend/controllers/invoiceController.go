@@ -79,7 +79,6 @@ func PostInvoice() gin.HandlerFunc {
 			return
 		}
 
-		// Calculate total
 		var total float64
 		var iva float64 = 1.15
 		for _, item := range order.OrderItems {
@@ -90,7 +89,6 @@ func PostInvoice() gin.HandlerFunc {
 			total *= iva
 		}
 
-		// Create the invoice
 		invoice := models.Invoice{
 			OrderID:        newInvoice.OrderID,
 			IVA:            newInvoice.IVA,
@@ -155,7 +153,6 @@ func PatchInvoiceByID() gin.HandlerFunc {
 			return
 		}
 
-		// Update invoice fields
 		updates := map[string]interface{}{
 			"order_id":         inputInvoice.OrderID,
 			"payment_method":   inputInvoice.PaymentMethod,

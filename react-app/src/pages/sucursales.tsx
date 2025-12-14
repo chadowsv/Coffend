@@ -8,7 +8,6 @@ const Sucursales = () => {
             <div className="sucursales-container">
                 <h1>Sucursales</h1>
 
-                {/* MACHACHI */}
                 <div className="sucursal-card">
                     <div className="sucursal-content">
                         <div className="sucursal-info">
@@ -27,7 +26,6 @@ const Sucursales = () => {
                     </div>
                 </div>
 
-                {/* TAMBILLO */}
                 <div className="sucursal-card">
                     <div className="sucursal-content">
                         <div className="sucursal-info">
@@ -46,7 +44,6 @@ const Sucursales = () => {
                     </div>
                 </div>
 
-                {/* LA MERCED */}
                 <div className="sucursal-card">
                     <div className="sucursal-content">
                         <div className="sucursal-info">
