@@ -191,7 +191,7 @@ const Menus: React.FC = () => {
       <div>
         <Navbar />
         <div className="menu-container">
-          <p>Cargando menús...</p>
+          <p className="laoding-state">Cargando menús...</p>
         </div>
       </div>
     );

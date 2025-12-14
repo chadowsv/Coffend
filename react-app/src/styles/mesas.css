@@ -2,28 +2,33 @@
   padding: 20px;
   text-align: center;
   color: white;
+  max-width: var(--max-width);
+  margin: 0 auto;
 }
 
-.title {
-  font-size: 32px;
+.mesas-title {
+  font-size: 2rem;
   margin-bottom: 25px;
+  color: var(--color-text);
 }
 
-.grid {
+/* ===== GRID DE MESAS ===== */
+.mesas-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: 20px;
   padding: 20px;
 }
 
+/* ===== TARJETA DE MESA ===== */
 .mesa-card {
   background-color: #fdfdfd;
   padding: 20px;
-  border-radius: 12px;
+  border-radius: var(--radius);
   text-align: center;
   width: 100%;
-  transition: transform .2s;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+  transition: transform 0.2s;
+  box-shadow: var(--shadow-md);
   cursor: pointer;
 }
 
@@ -33,15 +38,16 @@
 
 .mesa-card h3,
 .mesa-card p strong {
-  color: black;
+  color: var(--color-text);
 }
 
-.cap-num {
-  color: #55556a;
+.capacity-number {
+  color: var(--color-chair);
   font-weight: 700;
 }
 
-.mesa-vista {
+/* ===== VISUALIZACIÓN DE MESA ===== */
+.mesa-view {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -56,30 +62,31 @@
   gap: 18px;
 }
 
-.table {
+.mesa-table {
   width: 90px;
   height: 55px;
-  border-radius: 10px;
-  background-color: #8b5e3c;
+  border-radius: var(--radius-md);
+  background-color: var(--color-table-wood);
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
   transition: background-color 0.3s;
 }
 
+/* ===== SILLAS ===== */
 .chair {
   width: 45px;
   height: 50px;
-  background: #55556a;
-  border-radius: 6px;
+  background: var(--color-chair);
+  border-radius: var(--radius-sm);
   position: relative;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.4);
-  transition: transform .2s, background-color 0.3s;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
+  transition: transform 0.2s, background-color 0.3s;
 }
 
 .chair::before {
   content: "";
   width: 45px;
   height: 14px;
-  background: #2f2f3d;
+  background: var(--color-chair-dark);
   position: absolute;
   top: -10px;
   border-radius: 4px;
@@ -124,36 +131,37 @@
   margin-top: 55px;
 }
 
-.estado-ocupado {
-  color: rgb(255, 82, 82);
+/* ===== ESTADOS ===== */
+.status-occupied {
+  color: var(--color-occupied);
   font-weight: bold;
 }
 
-.estado-libre {
-  color: rgb(97, 219, 97);
+.status-available {
+  color: var(--color-available);
   font-weight: bold;
 }
 
-.mesa-card.ocupada .table {
-  background-color: rgb(204, 71, 71);
+.mesa-card.occupied .mesa-table {
+  background-color: var(--color-occupied);
 }
 
-.mesa-card.libre .table {
-  background-color: rgb(103, 201, 103);
+.mesa-card.available .mesa-table {
+  background-color: var(--color-available);
 }
 
-.mesa-card.ocupada .chair {
-  background-color: rgb(204, 71, 71);
+.mesa-card.occupied .chair {
+  background-color: var(--color-occupied);
 }
 
-.mesa-card.ocupada .chair::before {
-  background-color: rgb(150, 50, 50);
+.mesa-card.occupied .chair::before {
+  background-color: var(--color-occupied-dark);
 }
 
-.mesa-card.libre .chair {
-  background-color: #55556a;
+.mesa-card.available .chair {
+  background-color: var(--color-chair);
 }
 
-.mesa-card.libre .chair::before {
-  background-color: #2f2f3d;
+.mesa-card.available .chair::before {
+  background-color: var(--color-chair-dark);
 }

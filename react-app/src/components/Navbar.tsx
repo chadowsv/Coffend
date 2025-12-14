@@ -36,7 +36,7 @@ export default function Navbar() {
             <a href="/Register">Registrarse</a>
           </>
         ) : (
-          <Button type="button" text="Logout" onClick={handleLogout} />
+          <Button type="button" text="Logout" onClick={handleLogout} className="btn-secondary" />
         )}
       </div>
     </nav>

@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Button from "../components/Button";
-import "../styles/global.css";
-import "../styles/register.css";
+import "../styles/auth_forms.css";
 
 const Register = () => {
   const [firstName, setFirstName] = useState("");
@@ -59,10 +58,10 @@ const Register = () => {
   return (
     <div>
       <Navbar />
-      <div className="register_container">
-        <h1 className="titulo_registro">Crear Cuenta</h1>
+      <div className="auth-container">
+        <h1 className="auth-title">Crear Cuenta</h1>
 
-        <div className="form_container">
+        <div className="form-container">
           <form onSubmit={handleSubmit} className="register-form">
 
             <label>Nombre</label>
@@ -125,7 +124,7 @@ const Register = () => {
               <option value="cliente">Cliente</option>
             </select>
 
-            <Button type="submit" text="Registrarse" />
+            <Button type="submit" text="Registrarse" className="btn-primary" />
           </form>
         </div>
       </div>

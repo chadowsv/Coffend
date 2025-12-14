@@ -2,7 +2,7 @@ import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Button from "../components/Button";
-import "../styles/login.css";
+import "../styles/auth_forms.css";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -44,7 +44,7 @@ const Login = () => {
         localStorage.setItem("token", data.token);
         localStorage.setItem("user", JSON.stringify(data.user));
         localStorage.setItem("role", data.user.role);
-        navigate("/menu");
+        navigate("/menus");
       } else {
         throw new Error("No se recibió el token JWT del servidor");
       }
@@ -57,10 +57,10 @@ const Login = () => {
   return (
     <div>
       <Navbar />
-      <div className="login_container">
-        <h1 className="titulo_inicio_sesion">Inicio de Sesión</h1>
+      <div className="auth-container">
+        <h1 className="auth-title">Inicio de Sesión</h1>
 
-        <div className="form_container">
+        <div className="form-container">
           <form onSubmit={handleSubmit} className="login-form">
 
             <label htmlFor="email">Correo</label>
@@ -89,7 +89,7 @@ const Login = () => {
               required
             />
 
-            <Button type="submit" text="Ingresar" />
+            <Button type="submit" text="Ingresar" className="btn-primary"/>
           </form>
         </div>
       </div>

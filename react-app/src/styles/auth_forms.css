@@ -1,0 +1,187 @@
+/* ===== CONTENEDORES DE AUTENTICACIÓN ===== */
+.auth-container {
+  display: flex;
+  flex-direction: column;
+  margin: 20px auto;
+  padding: 20px;
+  min-height: 70vh;
+  width: 95%;
+  max-width: 900px;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-form-bg);
+  color: var(--color-form-text);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-button);
+}
+
+.auth-title {
+  font-family: "Alex Brush", cursive !important;
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  color: var(--color-secondary);
+  margin-bottom: 25px;
+  text-align: center;
+  overflow-wrap: break-word;
+  font-style: italic;
+}
+
+/* ===== FORMULARIO DE REGISTRO ===== */
+.register-form {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr;
+  width: 90%;
+  max-width: 600px;
+  font-size: 18px;
+}
+
+.register-form label {
+  font-weight: 600;
+  font-size: clamp(1.1rem, 2vw, 1.3rem);
+  color: var(--color-form-text);
+}
+
+.register-form input,
+.register-form select {
+  padding: clamp(14px, 3vw, 18px);
+  border-radius: var(--radius-md);
+  border: none;
+  outline: none;
+  font-size: clamp(1rem, 1.5vw, 1.1rem);
+  width: 100%;
+  box-sizing: border-box;
+  transition: box-shadow 0.2s;
+  background: var(--color-card-bg);
+}
+
+.register-form input:focus,
+.register-form select:focus {
+  box-shadow: 0 0 8px rgba(109, 163, 77, 0.6);
+}
+
+.register-form button,
+.register-form .btn {
+  grid-column: 1 / -1;
+  width: 100%;
+  padding: clamp(14px, 3vw, 18px);
+  margin-top: 20px;
+}
+
+/* ===== FORMULARIO DE LOGIN ===== */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 90%;
+  max-width: 450px;
+  font-size: 18px;
+}
+
+.login-form label {
+  font-weight: 600;
+  font-size: clamp(1.1rem, 2vw, 1.3rem);
+  color: var(--color-form-text);
+}
+
+.login-form input {
+  padding: clamp(14px, 3vw, 18px);
+  border-radius: var(--radius-md);
+  border: none;
+  outline: none;
+  font-size: clamp(1rem, 1.5vw, 1.1rem);
+  width: 100%;
+  box-sizing: border-box;
+  transition: box-shadow 0.2s;
+  background: var(--color-card-bg);
+}
+
+.login-form input:focus {
+  box-shadow: 0 0 8px rgba(109, 163, 77, 0.6);
+}
+
+.login-form button,
+.login-form .btn {
+  margin-top: 20px;
+  width: 100%;
+  padding: clamp(14px, 3vw, 18px);
+}
+
+/* ===== SELECT DESHABILITADO ===== */
+.select-disabled {
+  pointer-events: none;
+  background-color: var(--color-form-disabled);
+  color: var(--color-text-muted);
+  border-color: var(--color-border-dark);
+  cursor: not-allowed;
+}
+
+/* ===== REGISTER SUCCESS ===== */
+.success-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem;
+}
+
+.success-box {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.success-btn {
+  background-color: var(--color-secondary);
+  color: white;
+  padding: 12px 24px;
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  font-weight: 600;
+  transition: background-color 0.2s;
+  font-size: 1rem;
+}
+
+.success-btn:hover {
+  background-color: var(--color-secondary-dark);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (min-width: 700px) {
+  .register-form {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .auth-container {
+    padding: 15px;
+    width: 98%;
+  }
+
+  .auth-title {
+    font-size: clamp(2.2rem, 8vw, 3.5rem);
+  }
+
+  .register-form,
+  .login-form {
+    width: 100%;
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .auth-container {
+    border-radius: var(--radius-md);
+  }
+
+  .auth-title {
+    font-size: clamp(2rem, 10vw, 3rem);
+  }
+}
+
+.auth-container * {
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}

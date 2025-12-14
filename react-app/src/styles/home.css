@@ -1,8 +1,8 @@
-/* Secciones responsivas que se adaptan al contenido */
-.sections_home {
-  background: var(--card-bg);
+/* ===== HOME SECTION COMPONENT ===== */
+.home-section {
+  background: var(--color-card-bg);
   border-radius: var(--radius);
-  box-shadow: 0 6px 20px rgba(20, 20, 50, 0.06);
+  box-shadow: var(--shadow-lg);
   padding: clamp(1.25rem, 2.5vw, 2rem);
   width: 100%;
   display: block;
@@ -13,33 +13,34 @@
   margin: clamp(0.25rem, 0.5rem, 0.75rem) 0;
 }
 
-.section_title {
+.home-section-title {
   font-size: clamp(1.3rem, 2.5vw, 1.8rem);
   font-weight: 700;
   margin-bottom: clamp(0.75rem, 1.5vw, 1.25rem);
-  color: #111;
+  color: var(--color-text);
 }
 
-.section_text {
+.home-section-text {
   font-size: clamp(1rem, 1.3vw, 1.1rem);
-  color: #333;
+  color: var(--color-text-light);
   line-height: 1.8;
   word-break: break-word;
   overflow-wrap: anywhere;
   hyphens: auto;
 }
 
-.section_text a {
-  color: var(--accent);
+.home-section-text a {
+  color: var(--color-accent);
   text-decoration: none;
   font-weight: 600;
 }
 
-.section_text a:hover {
+.home-section-text a:hover {
   text-decoration: underline;
 }
 
-.imagen_cocineros {
+/* ===== HOME ESPECÍFICO ===== */
+.home-image {
   width: 95vw;
   height: auto;
   max-height: 500px;
@@ -49,56 +50,49 @@
   display: block;
 }
 
-.footer {
-  width: 95vw;
-  background: #222;
-  color: #fff;
-  text-align: center;
-  padding: clamp(1.5rem, 2.5vw, 2rem);
-  border-radius: var(--radius);
-  margin-top: clamp(0.5rem, 0.75rem, 1rem);
-}
-
-.footer_text {
-  font-size: clamp(0.9rem, 1.1vw, 1rem);
-  margin: 0;
-}
-
-.section_union {
+.home-sections-union {
   width: 100%;
   display: flex;
   gap: clamp(1rem, 1.5vw, 1.25rem);
   flex-wrap: wrap;
 }
 
-.section_union > * {
+.home-sections-union > * {
   flex: 1 1 calc(50% - clamp(0.5rem, 0.75vw, 0.625rem));
   min-width: 300px;
 }
 
-.container {
+/* ===== FOOTER ===== */
+.footer {
   width: 100%;
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: clamp(0.75rem, 2vw, 1.5rem);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: clamp(1rem, 1.5vw, 1.25rem);
+  background: var(--color-footer);
+  color: white;
+  text-align: center;
+  padding: clamp(1.5rem, 2.5vw, 2rem);
+  border-radius: var(--radius);
+  margin: clamp(0.5rem, 0.75rem, 1rem) auto 0 auto;
 }
 
+.footer-text {
+  font-size: clamp(0.9rem, 1.1vw, 1rem);
+  margin: 0;
+}
+
+/* ===== RESPONSIVE HOME ===== */
 @media (max-width: 639px) {
-  .sections_home {
+  .home-section {
     padding: 1.25rem;
   }
-  .section_title {
+  
+  .home-section-title {
     margin-bottom: 0.75rem;
   }
+  
   .footer {
     padding: 1.5rem;
   }
-  .imagen_cocineros {
+  
+  .home-image {
     max-width: 100%;
   }
 }
