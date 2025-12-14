@@ -1,13 +1,7 @@
 export const isAdmin = () => {
-  const user = localStorage.getItem("user");
-  if (!user) return false;
-
-  try {
-    const parsedUser = JSON.parse(user);
-    return parsedUser.role === "admin";
-  } catch {
-    return false;
-  }
+  const role = localStorage.getItem("role");
+  if (role === "admin") return true;
+  return false;
 };
 
 export const getToken = () => {
