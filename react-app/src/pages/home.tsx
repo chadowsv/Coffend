@@ -17,16 +17,17 @@ const Home: React.FC = () => {
 
         <img src="/img/cocina.jpg" alt="imagen_de_los_cocineros" className="imagen_cocineros" />
 
+        <div className="section_union">
+          <HomeSection id="vision" title="Vision">
+              Ser el restaurante referente de la cocina manaba en Ecuador, reconocidos por nuestra autenticidad, calidad y compromiso con la comunidad. 
+              Queremos que cada cliente que visite La Esquina del Verde sienta la calidez de nuestra tierra y la tradición en cada bocado.
+          </HomeSection>
 
-        <HomeSection id="vision" title="Vision">
-            Ser el restaurante referente de la cocina manaba en Ecuador, reconocidos por nuestra autenticidad, calidad y compromiso con la comunidad. 
-            Queremos que cada cliente que visite La Esquina del Verde sienta la calidez de nuestra tierra y la tradición en cada bocado.
-        </HomeSection>
-
-        <HomeSection id="mision" title="Mision">
-            Nuestra misión es ofrecer platos manabitas deliciosos y frescos, utilizando productos locales de calidad, respetando la tradición y fomentando la cultura gastronómica de Manabí. 
-            Buscamos crear experiencias memorables para cada comensal y apoyar a los productores locales, promoviendo el desarrollo sostenible de nuestra región.
-        </HomeSection>
+          <HomeSection id="mision" title="Mision">
+              Nuestra misión es ofrecer platos manabitas deliciosos y frescos, utilizando productos locales de calidad, respetando la tradición y fomentando la cultura gastronómica de Manabí. 
+              Buscamos crear experiencias memorables para cada comensal y apoyar a los productores locales, promoviendo el desarrollo sostenible de nuestra región.
+          </HomeSection>
+        </div>
 
         <HomeSection id="contacto" title="Contacto">
               Visítanos en nuestra esquina en Manabí o contáctanos vía correo electrónico: <a href="mailto:contacto@laesquinadelverde.com">contacto@laesquinadelverde.com</a>

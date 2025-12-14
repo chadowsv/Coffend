@@ -1,4 +1,23 @@
+import React, { useState, useEffect } from 'react';
+import { isLoggedIn, logout } from '../auth';
+import { useNavigate } from 'react-router-dom';
+import Button from './Button';
+
 export default function Navbar() {
+
+  const [logged, setLogged] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    setLogged(isLoggedIn());
+  }, []);
+
+  const handleLogout = () => {
+    logout();
+    setLogged(false);
+    navigate('/login');
+  }
+
   return (
     <nav className="navbar">
   
@@ -7,11 +26,18 @@ export default function Navbar() {
       </a>
       
       <div className="navbar-links">
-        <a href="/menu">Menú</a>
+        <a href="/menus">Menú</a>
         <a href="/sucursales">Sucursales</a>
         <a href="/mesas">Mesas</a>
-        <a href="/login">Login</a>
-        <a href="/Register">Registrarse</a>
+
+        {!logged ? (
+          <>
+            <a href="/login">Login</a>
+            <a href="/Register">Registrarse</a>
+          </>
+        ) : (
+          <Button type="button" text="Logout" onClick={handleLogout} />
+        )}
       </div>
     </nav>
   );

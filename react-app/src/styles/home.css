@@ -40,26 +40,40 @@
 }
 
 .imagen_cocineros {
-  width: 100%;
-  max-width: 1100px;
+  width: 95vw;
   height: auto;
+  max-height: 500px;
   border-radius: var(--radius);
   object-fit: cover;
+  object-position: center top;
   display: block;
 }
 
 .footer {
+  width: 95vw;
   background: #222;
   color: #fff;
   text-align: center;
   padding: clamp(1.5rem, 2.5vw, 2rem);
   border-radius: var(--radius);
-  margin-top: clamp(2rem, 3vw, 2.5rem);
+  margin-top: clamp(0.5rem, 0.75rem, 1rem);
 }
 
 .footer_text {
   font-size: clamp(0.9rem, 1.1vw, 1rem);
   margin: 0;
+}
+
+.section_union {
+  width: 100%;
+  display: flex;
+  gap: clamp(1rem, 1.5vw, 1.25rem);
+  flex-wrap: wrap;
+}
+
+.section_union > * {
+  flex: 1 1 calc(50% - clamp(0.5rem, 0.75vw, 0.625rem));
+  min-width: 300px;
 }
 
 .container {
