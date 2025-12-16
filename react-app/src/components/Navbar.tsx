@@ -6,13 +6,11 @@ import Button from './Button';
 
 export default function Navbar() {
 
-  const [adminUser, setAdminUser] = useState(false);
   const [logged, setLogged] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     setLogged(isLoggedIn());
-    setAdminUser(isAdmin());
   }, []);
 
   const handleLogout = () => {
@@ -31,12 +29,8 @@ export default function Navbar() {
       <div className="navbar-links">
         <a href="/menus">Menú</a>
         <a href="/sucursales">Sucursales</a>
+        <a href="/mesas">Mesas</a>
 
-        {adminUser ? (
-          <>
-            <a href="/mesas">Mesas</a>
-          </>
-        ) : null}
 
         {!logged ? (
           <>
